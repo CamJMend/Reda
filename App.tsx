@@ -1,12 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View} from 'react-native';
 import { initializeApp } from '@firebase/app';
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,onAuthStateChanged,
   signOut,
   User
 } from '@firebase/auth';
+import AuthScreen from './components/AuthScreen';
+import AuthenticatedScreen from './components/AuthenticatedScreen';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB44mWGaDDWjdhc6m1dyewVdSOP4OEJPkk",
@@ -20,48 +21,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-
-const AuthScreen = ({ email, setEmail, password, setPassword, isLogin, setIsLogin, handleAuthentication } : any) => {
-  return (
-    <View className='w-4/5 w-max-md bg-white p-4 rounded-lg'>
-      <Text className='text-2xl mb-4 text-center'>{isLogin ? 'Sign In' : 'Sign Up'}</Text>
-
-      <TextInput
-        className='h-10 border-[#ddd] border mb-4 p-2 rounded'
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        autoCapitalize="none"
-      />
-      <TextInput
-        className='h-10 border-[#ddd] border mb-4 p-2 rounded'
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        secureTextEntry
-      />
-      <View className='mb-4'>
-        <Button title={isLogin ? 'Sign In' : 'Sign Up'} onPress={handleAuthentication} color="#3498db" />
-      </View>
-
-      <View className='mb-4'>
-        <Text className=' text-[#3498db] text-center' onPress={() => setIsLogin(!isLogin)}>
-          {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Sign In'}
-        </Text>
-      </View>
-    </View>
-  );
-}
-
-const AuthenticatedScreen = ({ user, handleAuthentication } : any) => {
-  return (
-    <View className='w-4/5 w-max-md bg-white p-4 rounded-lg'>
-      <Text className='text-2xl mb-4 text-center'>Welcome</Text>
-      <Text className='text-lg text-center mb-5'>{user.email}</Text>
-      <Button title="Logout" onPress={handleAuthentication} color="#e74c3c" />
-    </View>
-  );
-};
 
 export default function App() {
   const [email, setEmail] = useState('');
@@ -103,10 +62,13 @@ export default function App() {
 
   return (
     <View className='grow justify-center items-center p-4 bg-[#f0f0f0]'>
-      {user ? (
+      {user ?
+      (
         // Show user's email if user is authenticated
         <AuthenticatedScreen user={user} handleAuthentication={handleAuthentication} />
-      ) : (
+      )
+      : 
+      (
         // Show sign-in or sign-up form if user is not authenticated
         <AuthScreen
           email={email}

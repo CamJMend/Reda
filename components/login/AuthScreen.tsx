@@ -1,9 +1,10 @@
 import { View, Text, TextInput, Button } from "react-native";
 
-export default function AuthScreen({ email, setEmail, password, setPassword, isLogin, setIsLogin, handleAuthentication } : any) {
+export default function AuthScreen({ email, setEmail, password, setPassword, isLogin, setIsLogin, handleAuthentication, cambio } : any) {
     return (
         <View className='w-4/5 w-max-md bg-slate-50 p-4 rounded-lg'>
             <Text className='text-2xl mb-4 text-center'>{isLogin ? 'Log In' : 'Sign Up'}</Text>
+            <Text className='text-2xl mb-4 text-center'>{cambio}</Text>
             <TextInput
                 className='h-10 border-[#ddd] border mb-4 p-2 rounded'
                 value={email}

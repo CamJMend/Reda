@@ -2,11 +2,10 @@ import { View, Text, Button } from "react-native";
 import { signOut } from "@react-native-firebase/auth";
 
 export default function Main({ navigation, route } : any) {
-    const { email, auth, setCambio } = route.params;
+    const { email, auth } = route.params;
 
     const handleLogOut = async () => {
         console.log('User logged out successfully!');
-        setCambio("cambiado")
         await signOut(auth);
         navigation.navigate("Login")
     }

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View} from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
 import { initializeApp } from '@firebase/app';
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, User
 } from '@firebase/auth';
-import AuthScreen from './AuthScreen';
+// @ts-ignore
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB44mWGaDDWjdhc6m1dyewVdSOP4OEJPkk",
@@ -18,6 +20,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = initializeAuth(
+  app,
+  {persistence: getReactNativePersistence(ReactNativeAsyncStorage)}
+)
 
 
 export default function Login({navigation} : any) {
@@ -25,8 +31,6 @@ export default function Login({navigation} : any) {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState<User | null>(null);
   const [isLogin, setIsLogin] = useState(true);
-  const [cambio, setCambio] = useState("");
-  const auth = getAuth(app);
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,6 +51,10 @@ export default function Login({navigation} : any) {
         await createUserWithEmailAndPassword(auth, email, password);
         console.log('User created successfully!');
       }
+      navigation.navigate("Home", {
+        email: email,
+        auth: auth,
+      });
     } catch (error : any) {
       console.error('Authentication error:', error.message);
     }
@@ -54,29 +62,31 @@ export default function Login({navigation} : any) {
 
   return (
     <View className='grow justify-center items-center p-4 bg-[#f0f0f0]'>
-      {user ?
-      (
-        // Show user's email if user is authenticated
-        navigation.navigate("Home", {
-          email: email,
-          auth: auth,
-          setCambio: setCambio
-        })
-      )
-      : 
-      (
-        // Show sign-in or sign-up form if user is not authenticated
-        <AuthScreen
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          isLogin={isLogin}
-          setIsLogin={setIsLogin}
-          handleAuthentication={handleAuthentication}
-          cambio={cambio}
+      <View className='w-4/5 w-max-md bg-slate-50 p-4 rounded-lg'>
+        <Text className='text-2xl mb-4 text-center'>{isLogin ? 'Log In' : 'Sign Up'}</Text>
+        <TextInput
+            className='h-10 border-[#ddd] border mb-4 p-2 rounded'
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Email"
+            autoCapitalize="none"
         />
-      )}
+        <TextInput
+            className='h-10 border-[#ddd] border mb-4 p-2 rounded'
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Password"
+            secureTextEntry
+        />
+        <View className='mb-4'>
+            <Button title={isLogin ? 'Log In' : 'Sign Up'} onPress={handleAuthentication} color="#3498db" />
+        </View>
+        <View className='mb-4'>
+            <Text className=' text-[#3498db] text-center' onPress={() => setIsLogin(!isLogin)}>
+                {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Log In'}
+            </Text>
+        </View>
+      </View>
     </View>
   );
 }

@@ -4,23 +4,13 @@ import { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../../components/initApp";
 
-export default function Home() {
+export default function Map() {
     const [userID, setUserID] = useState("")
     const [userData, setUserData] = useState<any>({})
     const [docID, setDocID] = useState("")
 
-    const handleLogOut = () => {
-        router.push('/login/3')
-    }
-
-    const handleShowData = () => {
-        console.log(userID);
-        console.log(docID);
-        console.log(userData);
-    }
-
-    const handleGoMap = () => {
-        router.push('/main/map')
+    const handleGoHome = () => {
+        router.push('/main/home')
     }
 
     const handleGoForms = () => {
@@ -51,32 +41,24 @@ export default function Home() {
         <View className="grow justify-between items-center">
             <ScrollView className="w-full">
                 <View className="pt-10 items-center">
-                    <Text>Home</Text>
-                    <Text>{userData.name ? userData.name : ""}</Text>
-                    <Pressable className="px-6 py-3 bg-red-500 rounded-full" onPress={handleLogOut}>
-                        <Text className="text-white">Log Out</Text>
-                    </Pressable>
-
-                    <Pressable className="px-6 py-3 rounded-full mt-10 bg-green-500 active:bg-[#1e9e1a49] " onPress={handleShowData}>
-                        <Text className="text-white">Show </Text>
-                    </Pressable>
+                    <Text>Map</Text>
                 </View>
             </ScrollView>
 
             {/* Bottom Tab */}
             <View className="w-full pt-2 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
-                <Pressable className="w-20 h-20 rounded-full static justify-center items-center" onPress={handleGoMap}>
+                <View className="w-20 h-20 rounded-full static justify-center items-center border-4 border-[#074F40]">
                     <Image
-                        source={require('../../assets/location.png')}
+                        source={require('../../assets/locationSelected.png')}
+                        className=" w-[65%] h-[65%]"
+                    />
+                </View>
+                <Pressable className="w-20 h-20 rounded-full static justify-center items-center" onPress={handleGoHome}>
+                    <Image
+                        source={require('../../assets/home.png')}
                         className=" w-[50%] h-[50%]"
                     />
                 </Pressable>
-                <View className="w-20 h-20 rounded-full static justify-center items-center border-4 border-[#074F40]">
-                    <Image
-                        source={require('../../assets/homeSelected.png')}
-                        className=" w-[60%] h-[60%]"
-                    />
-                </View>
                 <Pressable className="w-20 h-20 rounded-full static justify-center items-center" onPress={handleGoForms}>
                     <Image
                         source={require('../../assets/aid.png')}

@@ -6,7 +6,15 @@ export default function Main() {
             <Stack.Screen
                 name="home"
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    animation: "none",
+                }}
+            />
+            <Stack.Screen
+                name="map"
+                options={{
+                    headerShown: false,
+                    animation: "none",
                 }}
             />
         </Stack>

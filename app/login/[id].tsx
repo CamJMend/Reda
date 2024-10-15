@@ -1,30 +1,9 @@
 import { View, Text, Pressable, Image, TextInput, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useLocalSearchParams, Link, router } from "expo-router";
 import { useState, useEffect } from "react";
-import { initializeApp } from '@firebase/app';
-import {
-    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,onAuthStateChanged,
-    signOut,
-    User
-} from '@firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@firebase/auth';
 import Toast from 'react-native-toast-message';
-
-const firebaseConfig = {
-    apiKey: "AIzaSyB44mWGaDDWjdhc6m1dyewVdSOP4OEJPkk",
-    authDomain: "reda-fb.firebaseapp.com",
-    projectId: "reda-fb",
-    storageBucket: "reda-fb.appspot.com",
-    messagingSenderId: "72744660787",
-    appId: "1:72744660787:web:2a7eeb88e65aaa2cd65846",
-    measurementId: "G-W3LK2WMQQR"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-  // const auth = initializeAuth(
-  //   app,
-  //   {persistence: getReactNativePersistence(ReactNativeAsyncStorage)}
-  // )
+import { auth } from "../../components/initApp";
 
 export default function Login() {
     const [email, setEmail] = useState("")
@@ -38,22 +17,13 @@ export default function Login() {
             if (id == "1") {
                 await signInWithEmailAndPassword(auth, email, password);
                 console.log('User signed in successfully!');
-                router.push({
-                    pathname: '/main/home',
-                    params: {
-                        user: JSON.stringify(auth)
-                    }
-                })
+                router.push('/main/home')
             } else if (id == "2") {
+                // Check if the password and the repeated password are the same
                 if (password == passwordRepeated) {
                     await createUserWithEmailAndPassword(auth, email, password);
                     console.log('User created successfully!');
-                    router.push({
-                        pathname: '/main/home',
-                        params: {
-                            user: JSON.stringify(auth)
-                        }
-                    })
+                    router.push('/user/data')
                 } else {
                     Toast.show({
                         type: 'error',
@@ -88,7 +58,7 @@ export default function Login() {
     }, []);
 
     return (
-        <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+        <KeyboardAvoidingView behavior="padding">
             <ScrollView>
                 <View className="pt-12">
                     {/* Header */}

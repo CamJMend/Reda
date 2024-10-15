@@ -4,7 +4,7 @@ import { Link } from "expo-router";
 export default function Welcome() {
     return (
         <>
-            <View className="grow bg-[#f0f0f0]">
+            <View className="grow">
                 {/* Section 1 */}
                 <View className="h-[37%] w-full items-center pt-12">
                     {/* Title */}

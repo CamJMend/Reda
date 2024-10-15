@@ -18,6 +18,12 @@ export default function App() {
                 }}
             />
             <Stack.Screen
+                name="user/data"
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
                 name="main"
                 options={{
                     headerShown: false,

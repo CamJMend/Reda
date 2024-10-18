@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../../components/initApp";
+import MainHeader from "../../components/mainHeader";
 
 export default function Forms() {
     const [userID, setUserID] = useState("")
@@ -50,7 +51,10 @@ export default function Forms() {
 
     return (
         <View className="grow justify-center items-center">
-            <ScrollView className="w-full">
+            {/* Header */}
+            <MainHeader screenName="Registro"/>
+
+            <ScrollView className="w-full bg-white">
                 <View className="pt-10 items-center">
                     <Text className="text-lg font-bold">Select a Form</Text>
                     <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={handleGoAllies}>
@@ -67,7 +71,7 @@ export default function Forms() {
 
 
             {/* Bottom Tab */}
-            <View className="w-full pt-2 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
+            <View className="w-full h-[12.5%] pt-2 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
                 <Pressable className="w-20 h-20 rounded-full static justify-center items-center" onPress={handleGoMap}>
                     <Image
                         source={require('../../assets/location.png')}

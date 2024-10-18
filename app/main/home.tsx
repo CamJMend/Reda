@@ -5,6 +5,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../../components/initApp";
 import { LinearGradient } from 'expo-linear-gradient';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MainHeader from "../../components/mainHeader";
 
 export default function Home() {
     const [userID, setUserID] = useState("")
@@ -49,21 +50,9 @@ export default function Home() {
     },[userID])
 
     return (
-
         <View className="grow justify-between items-center">
             {/* Header */}
-            <LinearGradient
-                colors={['#074F40', 'rgba(255,255,255,1)']}
-                start={{ x: 1, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                className=" lex flex-row items-center justify-around pt-10 pb-12 w-full"
-            >
-                <MaterialIcons name="account-circle" size={56} color="white" />
-                <View className="h-14 justify-end">
-                    <Text className="text-white font-bold">Inicio</Text>
-                </View>
-                <MaterialIcons name="notifications" size={56} color="white" />
-            </LinearGradient>
+            <MainHeader screenName="Inicio"/>
 
             {/* Main Content */}
             <ScrollView className="w-full bg-white">
@@ -80,7 +69,7 @@ export default function Home() {
             </ScrollView>
 
             {/* Bottom Tab */}
-            <View className="w-full pt-2 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
+            <View className="w-full h-[12.5%] pt-2 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
                 <Pressable className="w-20 h-20 rounded-full static justify-center items-center" onPress={handleGoMap}>
                     <Image
                         source={require('../../assets/location.png')}

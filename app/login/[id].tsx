@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@firebase/auth';
 import Toast from 'react-native-toast-message';
 import { auth } from "../../components/initApp";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordRepeated, setPasswordRepeated] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
     const { id } = useLocalSearchParams()
 
     const handleLogIn = async () => {
@@ -44,6 +46,10 @@ export default function Login() {
             })
         }
     };
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword)
+    }
 
     useEffect(() => {
         const logOut = async () => {
@@ -111,13 +117,18 @@ export default function Login() {
                         {/* Password Form */}
                         <View className="mt-5">
                             <Text className="font-bold">Contraseña</Text>
-                            <TextInput
-                                className='h-14 border-[#ddd] border p-2 rounded'
-                                value={password}
-                                onChangeText={setPassword}
-                                placeholder="••••••••"
-                                secureTextEntry={true}
-                            />
+                            <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
+                                <TextInput
+                                    className='w-[85%] mr-2'
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="••••••••"
+                                    secureTextEntry={!showPassword}
+                                />
+                                <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
+                                    <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
+                                </Pressable>
+                            </View>
                         </View>
 
                         {/* Recover Password or Repeat Password Form */}
@@ -128,13 +139,18 @@ export default function Login() {
                         :
                             <View className="mt-5">
                                 <Text className="font-bold">Confirmar Contraseña</Text>
-                                <TextInput
-                                    className='h-14 border-[#ddd] border p-2 rounded'
-                                    value={passwordRepeated}
-                                    onChangeText={setPasswordRepeated}
-                                    placeholder="••••••••"
-                                    secureTextEntry={true}
-                                />
+                                <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
+                                    <TextInput
+                                        className='w-[85%] mr-2'
+                                        value={passwordRepeated}
+                                        onChangeText={setPasswordRepeated}
+                                        placeholder="••••••••"
+                                        secureTextEntry={!showPassword}
+                                    />
+                                    <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
+                                        <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
+                                    </Pressable>
+                                </View>
                             </View>
                         }
                         

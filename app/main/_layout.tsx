@@ -17,6 +17,34 @@ export default function Main() {
                     animation: "none",
                 }}
             />
+            <Stack.Screen
+                name="forms"
+                options={{
+                    headerShown: false,
+                    animation: "none",
+                }}
+            />
+            <Stack.Screen
+                name="forms/allies"
+                options={{
+                    headerShown: false,
+                    animation: "none",
+                }}
+            />
+            <Stack.Screen
+                name="forms/volunteers"
+                options={{
+                    headerShown: false,
+                    animation: "none",
+                }}
+            />
+            <Stack.Screen
+                name="forms/inneed"
+                options={{
+                    headerShown: false,
+                    animation: "none",
+                }}
+            />
         </Stack>
-    )
+    );
 }

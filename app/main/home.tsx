@@ -1,8 +1,10 @@
-import { View, Text, Pressable, ScrollView, Image } from "react-native";
+import { View, Text, Pressable, ScrollView, Image, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../../components/initApp";
+import { LinearGradient } from 'expo-linear-gradient';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function Home() {
     const [userID, setUserID] = useState("")
@@ -49,9 +51,23 @@ export default function Home() {
     return (
 
         <View className="grow justify-between items-center">
-            <ScrollView className="w-full">
-                <View className="pt-10 items-center">
-                    <Text>Home</Text>
+            {/* Header */}
+            <LinearGradient
+                colors={['#074F40', 'rgba(255,255,255,1)']}
+                start={{ x: 1, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                className=" lex flex-row items-center justify-around pt-10 pb-12 w-full"
+            >
+                <MaterialIcons name="account-circle" size={56} color="white" />
+                <View className="h-14 justify-end">
+                    <Text className="text-white font-bold">Inicio</Text>
+                </View>
+                <MaterialIcons name="notifications" size={56} color="white" />
+            </LinearGradient>
+
+            {/* Main Content */}
+            <ScrollView className="w-full bg-white">
+                <View className="items-center">
                     <Text>{userData.name ? userData.name : ""}</Text>
                     <Pressable className="px-6 py-3 bg-red-500 rounded-full" onPress={handleLogOut}>
                         <Text className="text-white">Log Out</Text>

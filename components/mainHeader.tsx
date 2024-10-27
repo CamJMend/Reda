@@ -11,7 +11,7 @@ export default function MainHeader({screenName} : any) {
             className="w-full h-[17%] flex flex-row items-center justify-around pt-10"
         >
             <MaterialIcons name="account-circle" size={56} color="white" />
-            <View className="h-14 w-20 justify-end items-center">
+            <View className="h-14 w-24 justify-end items-center">
                 <Text className="text-white font-bold">{screenName}</Text>
             </View>
             <MaterialIcons name="notifications" size={56} color="white" />

@@ -1,96 +1,63 @@
-import { View, Text, Pressable, ScrollView, Image } from "react-native";
-import { router } from "expo-router";
-import { useState, useEffect } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { auth, db } from "../../components/initApp";
-import MainHeader from "../../components/mainHeader";
+import { View, Text, Pressable, ScrollView } from "react-native";
+import { useState } from "react";
+import Allies from "./forms/allies";
+import Volunteers from "./forms/volunteers";
+import InNeed from "./forms/inneed";
+import Error404 from "../../components/error404";
 
-export default function Forms() {
-    const [userID, setUserID] = useState("")
-    const [userData, setUserData] = useState<any>({})
-    const [docID, setDocID] = useState("")
+export default function Forms({ userID, userData, docID, setScreen, setScreenName } : any) {
+    const [formScreen, setFormScreen] = useState("forms");
 
-    const handleGoHome = () => {
-        router.push('/main/home')
-    }
-
-    const handleGoMap = () => {
-        router.push('/main/map')
-    }
-
-    useEffect(() => {
-        const getUserData = async () => {
-            const users = collection(db, "users");
-            const q = query(users, where("userID", "==", userID));
-            const snapshot = await getDocs(q);
-            snapshot.forEach((doc) => {
-                setUserData(doc.data());
-                setDocID(doc.id);
-            });
-        }
-
-        if (auth.currentUser) {
-            setUserID(auth.currentUser.uid);
-            getUserData();
+    const handleGoBack = () => {
+        if (formScreen == "forms") {
+            setScreen("home");
+            setScreenName("Inicio");
         } else {
-            console.log("No user is currently logged in.");
+            setFormScreen("forms");
+            setScreenName("Registro");
         }
-    },[userID])
-
-    const handleGoAllies = () => {
-        router.push('/main/forms/allies');
-    };
-
-    const handleGoVolunteers = () => {
-        router.push('/main/forms/volunteers');
-    };
-
-    const handleGoInNeed = () => {
-        router.push('/main/forms/inneed');
-    };
+    }
 
     return (
-        <View className="grow justify-center items-center">
-            {/* Header */}
-            <MainHeader screenName="Registro"/>
+        <ScrollView className=" relative w-full px-10 bg-white">
+            {/* Go Back Button */}
+            <Pressable
+                className="w-16" onPress={handleGoBack}
+            >
+                <Text className="underline text-red-700">Regresar</Text>
+            </Pressable>
 
-            <ScrollView className="w-full bg-white">
+            {formScreen == "formAllies" ?
+                <Allies userID={userID} userData={userData} docID={docID} />
+            : formScreen == "formVolunteers" ?
+                <Volunteers userID={userID} userData={userData} docID={docID} />
+            : formScreen == "formInNeed" ?
+                <InNeed userID={userID} userData={userData} docID={docID} />
+            : formScreen == "forms" ?
                 <View className="pt-10 items-center">
                     <Text className="text-lg font-bold">Select a Form</Text>
-                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={handleGoAllies}>
+                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={() => {
+                        setScreenName("Aliados");
+                        setFormScreen("formAllies");
+                    }}>
                         <Text className="text-white">Aliados</Text>
                     </Pressable>
-                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={handleGoVolunteers}>
+                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={() => {
+                        setScreenName("Voluntarios");
+                        setFormScreen("formVolunteers");
+                    }}>
                         <Text className="text-white">Voluntarios</Text>
                     </Pressable>
-                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={handleGoInNeed}>
+                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={() => {
+                        setScreenName("Red de Ayuda");
+                        setFormScreen("formInNeed");
+                    }}>
                         <Text className="text-white">InNeed</Text>
                     </Pressable>
                 </View>
-            </ScrollView>
-
-
-            {/* Bottom Tab */}
-            <View className="w-full h-[12.5%] pt-2 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
-                <Pressable className="w-20 h-20 rounded-full static justify-center items-center" onPress={handleGoMap}>
-                    <Image
-                        source={require('../../assets/location.png')}
-                        className=" w-[50%] h-[50%]"
-                    />
-                </Pressable>
-                <Pressable className="w-20 h-20 rounded-full static justify-center items-center" onPress={handleGoHome}>
-                    <Image
-                        source={require('../../assets/home.png')}
-                        className=" w-[50%] h-[50%]"
-                    />
-                </Pressable>
-                <View className="w-20 h-20 rounded-full static justify-center items-center border-4 border-[#074F40]">
-                    <Image
-                        source={require('../../assets/aidSelected.png')}
-                        className=" w-[60%] h-[60%]"
-                    />
-                </View>
-            </View>
-        </View>
+            :
+                <Error404 />
+            }
+        </ScrollView>
     );
 }

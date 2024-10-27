@@ -21,7 +21,7 @@ export default function Data() {
                 name: name,
                 lastName: lastName
             });
-            router.push('/main/home')
+            router.push('/main/mainScreen')
         } catch (error : any) {
             console.error("Error adding user data: ", error);
         }

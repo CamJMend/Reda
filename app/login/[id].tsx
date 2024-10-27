@@ -19,7 +19,7 @@ export default function Login() {
             if (id == "1") {
                 await signInWithEmailAndPassword(auth, email, password);
                 console.log('User signed in successfully!');
-                router.push('/main/home')
+                router.push('/main/mainScreen')
             } else if (id == "2") {
                 // Check if the password and the repeated password are the same
                 if (password == passwordRepeated) {

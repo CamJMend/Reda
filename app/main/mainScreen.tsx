@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../../components/initApp";
+import { BackHandler } from "react-native";
 import MainHeader from "../../components/mainHeader";
 import MainTab from "../../components/mainTab";
 import Home from "./home";
@@ -28,6 +29,8 @@ export default function Main() {
                 setDocID(doc.id);
             });
         }
+
+        // BackHandler.addEventListener("hardwareBackPress", ()=>{return true});
 
         if (auth.currentUser) {
             setUserID(auth.currentUser.uid);

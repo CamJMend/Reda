@@ -48,9 +48,7 @@ export default function Map({ userID, userData, docID } : any) {
                         <Text className="mt-2 text-sm">{aidCenters[centerSelected].description}</Text>
                     </Pressable>
                 </Pressable>
-            :
-                null
-            }
+            : null}
 
             {/* Map */}
             <MapView

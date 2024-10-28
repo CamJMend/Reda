@@ -7,6 +7,7 @@ export default function App() {
                 name="index"
                 options={{
                     headerShown: false,
+                    gestureEnabled: false,
                 }}
             />
             <Stack.Screen
@@ -15,18 +16,21 @@ export default function App() {
                     headerShown: false,
                     animation: "fade",
                     animationDuration: 300,
+                    gestureEnabled: false,
                 }}
             />
             <Stack.Screen
                 name="user/data"
                 options={{
                     headerShown: false,
+                    gestureEnabled: false,
                 }}
             />
             <Stack.Screen
                 name="main"
                 options={{
                     headerShown: false,
+                    gestureEnabled: false,
                 }}
             />
         </Stack>

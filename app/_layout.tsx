@@ -32,6 +32,13 @@ export default function App() {
                     gestureEnabled: false,
                 }}
             />
+            <Stack.Screen
+                name="admin/adminMainScreen"
+                options={{
+                    headerShown: false,
+                    gestureEnabled: false,
+                }}
+            />
         </Stack>
     )
 }

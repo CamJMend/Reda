@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
 import Toast from 'react-native-toast-message';
 import { auth } from "../../components/initApp";
+import { admins } from "./admins";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Login() {
@@ -19,7 +20,11 @@ export default function Login() {
             if (id == "1") {
                 await signInWithEmailAndPassword(auth, email, password);
                 console.log('User signed in successfully!');
-                router.push('/main/mainScreen')
+                if (admins.emails.includes(email)) {
+                    router.push('/admin/adminMainScreen')
+                } else {
+                    router.push('/main/mainScreen')
+                }
             } else if (id == "2") {
                 // Check if the password and the repeated password are the same
                 if (password == passwordRepeated) {

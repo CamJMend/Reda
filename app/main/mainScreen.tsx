@@ -41,7 +41,7 @@ export default function Main() {
     },[userID, reload]);
 
     return (
-        <View className="grow justify-between items-center">
+        <View className="grow justify-between items-center grid-cols-3">
             {userData.name ? null : <Loading />}
             {/* Header */}
             <MainHeader screenName={screenName}/>

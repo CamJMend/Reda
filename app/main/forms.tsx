@@ -19,12 +19,12 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
     }
 
     return (
-        <ScrollView className=" relative w-full px-10 bg-white">
+        <ScrollView className=" relative grow w-full px-10 bg-white">
             {/* Go Back Button */}
             <Pressable
                 className="w-16" onPress={handleGoBack}
             >
-                <Text className="underline text-red-700">Regresar</Text>
+                <Text className="underline text-[#CE0E2D]">Regresar</Text>
             </Pressable>
 
             {formScreen == "formAllies" ?

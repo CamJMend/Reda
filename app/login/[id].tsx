@@ -52,10 +52,10 @@ export default function Login() {
     }
 
     return (
-        <KeyboardAvoidingView behavior="padding">
-            <ScrollView>
-                <View className="pt-12">
-                    {/* Header */}
+        <KeyboardAvoidingView behavior="padding" className="grow">
+            <View className="grow grid-cols-3">
+                {/* Header */}
+                <View className="w-full pt-10 flex flex-col">
                     <View className="flex flex-row justify-between px-8">
                         {/* Title */}
                         <View>
@@ -78,38 +78,62 @@ export default function Login() {
                             className="w-full h-24"
                         />
                     </View>
+                </View>
 
-                    <View className="px-5">
-                        {/* Title and Subtitle */}
-                        <View className="mt-10">
-                            <Text className="font-bold text-2xl">
-                                {id == "1" ? "Iniciar Sesión" : "Registro"}
-                            </Text>
-                            <Text className="mt-3">
-                                {id == "1" ? "Bienvenido/a de nuevo a Reda" : "Bienvenido/a a Reda empieza registrandote"}
-                            </Text>
-                        </View>
+                {/* Main Container */}
+                <ScrollView className="grow px-5">
+                    {/* Title and Subtitle */}
+                    <View className="mt-10">
+                        <Text className="font-bold text-2xl">
+                            {id == "1" ? "Iniciar Sesión" : "Registro"}
+                        </Text>
+                        <Text className="mt-3">
+                            {id == "1" ? "Bienvenido/a de nuevo a Reda" : "Bienvenido/a a Reda empieza registrandote"}
+                        </Text>
+                    </View>
 
-                        {/* Email Form */}
-                        <View className="mt-10">
-                            <Text className="font-bold">Correo Electrónico</Text>
+                    {/* Email Form */}
+                    <View className="mt-10">
+                        <Text className="font-bold">Correo Electrónico</Text>
+                        <TextInput
+                            className='h-14 border-[#ddd] border p-2 rounded'
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder="ejemplo@gmail.com"
+                            autoCapitalize="none"
+                        />
+                    </View>
+
+                    {/* Password Form */}
+                    <View className="mt-5">
+                        <Text className="font-bold">Contraseña</Text>
+                        <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
                             <TextInput
-                                className='h-14 border-[#ddd] border p-2 rounded'
-                                value={email}
-                                onChangeText={setEmail}
-                                placeholder="ejemplo@gmail.com"
-                                autoCapitalize="none"
+                                className='w-[85%] mr-2'
+                                value={password}
+                                onChangeText={setPassword}
+                                placeholder="••••••••"
+                                secureTextEntry={!showPassword}
                             />
+                            <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
+                                <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
+                            </Pressable>
                         </View>
+                    </View>
 
-                        {/* Password Form */}
+                    {/* Recover Password or Repeat Password Form */}
+                    {id == "1" ? 
+                        <View className="items-center mt-7">
+                            <Text className="underline">¿Olvidaste tu contraseña?</Text>
+                        </View>
+                    :
                         <View className="mt-5">
-                            <Text className="font-bold">Contraseña</Text>
+                            <Text className="font-bold">Confirmar Contraseña</Text>
                             <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
                                 <TextInput
                                     className='w-[85%] mr-2'
-                                    value={password}
-                                    onChangeText={setPassword}
+                                    value={passwordRepeated}
+                                    onChangeText={setPasswordRepeated}
                                     placeholder="••••••••"
                                     secureTextEntry={!showPassword}
                                 />
@@ -118,55 +142,31 @@ export default function Login() {
                                 </Pressable>
                             </View>
                         </View>
+                    }
+                </ScrollView>
 
-                        {/* Recover Password or Repeat Password Form */}
-                        {id == "1" ? 
-                            <View className="items-center mt-7">
-                                <Text className="underline">¿Olvidaste tu contraseña?</Text>
-                            </View>
-                        :
-                            <View className="mt-5">
-                                <Text className="font-bold">Confirmar Contraseña</Text>
-                                <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
-                                    <TextInput
-                                        className='w-[85%] mr-2'
-                                        value={passwordRepeated}
-                                        onChangeText={setPasswordRepeated}
-                                        placeholder="••••••••"
-                                        secureTextEntry={!showPassword}
-                                    />
-                                    <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
-                                        <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
-                                    </Pressable>
-                                </View>
-                            </View>
-                        }
-                        
+                {/* Continue and Switch */}
+                <View className="w-full pb-10 items-center">
+                    {/* Log In Button */}
+                    <Pressable
+                        className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]"
+                        onPress={handleLogIn}
+                    >
+                        <Text className="text-white font-bold text-base pb-1">
+                            {id == "1" ? "Continuar" : "Registrarse"}
+                        </Text>
+                    </Pressable>
 
-                        {/* Continue and Switch */}
-                        <View className={`items-center ${id == "1" ? "mt-20" : "mt-8"}`}>
-                            {/* Log In Button */}
-                            <Pressable
-                                className="py-4 px-12 rounded-full bg-[#00A435] active:bg-[#00a434b0]"
-                                onPress={handleLogIn}
-                            >
-                                <Text className="text-white font-bold">
-                                    {id == "1" ? "Continuar" : "Registrarse"}
-                                </Text>
-                            </Pressable>
-
-                            {/* Sign Up Link */}
-                            <Link asChild href={id == "1" ? "/login/2" : "/login/1"} className="mt-12">
-                                <Pressable>
-                                    <Text className="text-[#00A435] active:text-black underline">
-                                        {id == "1" ? "Crear una cuenta" : "Ya tengo una cuenta"}
-                                    </Text>
-                                </Pressable>
-                            </Link>
-                        </View>
-                    </View>
+                    {/* Sign Up Link */}
+                    <Link asChild href={id == "1" ? "/login/2" : "/login/1"} className="mt-12">
+                        <Pressable>
+                            <Text className="text-[#00A435] active:text-black underline">
+                                {id == "1" ? "Crear una cuenta" : "Ya tengo una cuenta"}
+                            </Text>
+                        </Pressable>
+                    </Link>
                 </View>
-            </ScrollView>
+            </View>
             <Toast/>
         </KeyboardAvoidingView>
     )

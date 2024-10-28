@@ -1,8 +1,10 @@
 import { View, Pressable, Image } from "react-native"
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function MainTab({ screen, setScreen, setScreenName } : any) {
     return (
-        <View className="w-full h-[12.5%] pt-2 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
+        <View className="w-full pt-4 pb-4 flex flex-row justify-around items-center static border-t-2 border-[#00000013]">
             <Pressable
                 className={`w-20 h-20 rounded-full static justify-center items-center ${screen == "map" ? "border-4 border-[#074F40]" : ""}`}
                 onPress={screen == "map" ? ()=>{return} : () => {
@@ -10,10 +12,7 @@ export default function MainTab({ screen, setScreen, setScreenName } : any) {
                     setScreenName("Mapa");
                 }}
             >
-                <Image
-                    source={screen == "map" ? require('../assets/locationSelected.png') : require('../assets/location.png')}
-                    className={screen == "map" ? "w-[60%] h-[60%]" : "w-[50%] h-[50%]"}
-                />
+                <MaterialIcons name="location-on" size={screen == "map" ? 50 : 40} color={screen == "map" ? "#074F40" : "#c6c7c5"} />
             </Pressable>
             <Pressable 
                 className={`w-20 h-20 rounded-full static justify-center items-center ${screen == "home" ? "border-4 border-[#074F40]" : ""}`}
@@ -22,10 +21,7 @@ export default function MainTab({ screen, setScreen, setScreenName } : any) {
                     setScreenName("Inicio");
                 }}
             >
-                <Image
-                    source={screen == "home" ? require('../assets/homeSelected.png') : require('../assets/home.png')}
-                    className={screen == "home" ? "w-[60%] h-[60%]" : "w-[50%] h-[50%]"}
-                />
+                <FontAwesome5 name="home" size={screen == "home" ? 45 : 35} color={screen == "home" ? "#074F40" : "#c6c7c5"} />
             </Pressable>
             <Pressable 
                 className={`w-20 h-20 rounded-full static justify-center items-center ${screen == "forms" ? "border-4 border-[#074F40]" : ""}`}
@@ -34,10 +30,7 @@ export default function MainTab({ screen, setScreen, setScreenName } : any) {
                     setScreenName("Registro");
                 }}
             >
-                <Image
-                    source={screen == "forms" ? require('../assets/aidSelected.png') : require('../assets/aid.png')}
-                    className={screen == "forms" ? "w-[60%] h-[60%]" : "w-[50%] h-[50%]"}
-                />
+                <MaterialIcons name="handshake" size={screen == "forms" ? 50 : 40} color={screen == "forms" ? "#074F40" : "#c6c7c5"} />
             </Pressable>
         </View>
     )

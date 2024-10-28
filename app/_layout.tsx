@@ -16,7 +16,6 @@ export default function App() {
                     headerShown: false,
                     animation: "fade",
                     animationDuration: 300,
-                    gestureEnabled: false,
                 }}
             />
             <Stack.Screen
@@ -27,7 +26,7 @@ export default function App() {
                 }}
             />
             <Stack.Screen
-                name="main"
+                name="main/mainScreen"
                 options={{
                     headerShown: false,
                     gestureEnabled: false,

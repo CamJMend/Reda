@@ -1,7 +1,22 @@
 import { View, Text, Image, Pressable } from "react-native";
+import { useEffect } from "react";
 import { Link } from "expo-router";
+import { auth } from "../components/initApp";
+import { signOut } from "@firebase/auth";
 
 export default function Welcome() {
+
+    useEffect(() => {
+        const logOut = async () => {
+            await signOut(auth);
+            console.log('User logged out successfully!');
+        }
+
+        if (auth.currentUser) {
+            logOut();
+        }
+    }, [])
+
     return (
         <>
             <View className="grow">

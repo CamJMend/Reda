@@ -30,7 +30,7 @@ export default function Main() {
             });
         }
 
-        // BackHandler.addEventListener("hardwareBackPress", ()=>{return true});
+        BackHandler.addEventListener("hardwareBackPress", ()=>{return true});
 
         if (auth.currentUser) {
             setUserID(auth.currentUser.uid);

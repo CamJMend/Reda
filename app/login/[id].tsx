@@ -1,7 +1,7 @@
 import { View, Text, Pressable, Image, TextInput, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useLocalSearchParams, Link, router } from "expo-router";
-import { useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@firebase/auth';
+import { useState } from "react";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
 import Toast from 'react-native-toast-message';
 import { auth } from "../../components/initApp";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -50,18 +50,6 @@ export default function Login() {
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
     }
-
-    useEffect(() => {
-        const logOut = async () => {
-            console.log('User logged out successfully!');
-            await signOut(auth);
-            router.push('/')
-        }
-
-        if (id == "3") {
-            logOut()
-        }
-    }, []);
 
     return (
         <KeyboardAvoidingView behavior="padding">

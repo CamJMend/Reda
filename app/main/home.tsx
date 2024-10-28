@@ -4,7 +4,7 @@ import { router } from "expo-router";
 export default function Home({ userID, userData, docID } : any) {
 
     const handleLogOut = () => {
-        router.push('/login/3')
+        router.navigate('/');
     }
 
     const handleShowData = () => {

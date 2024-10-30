@@ -8,6 +8,8 @@ import { admins } from "./admins";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Login() {
+    const [name, setName] = useState("")
+    const [birthday, setBirthday] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordRepeated, setPasswordRepeated] = useState("")
@@ -57,10 +59,12 @@ export default function Login() {
     }
 
     return (
-        <KeyboardAvoidingView behavior="padding" className="grow">
-            <View className="grow grid-cols-3">
+        <>
+            <View className="grow">
+                {/* Blank top space */}
+                <View className="mb-10"/>
                 {/* Header */}
-                <View className="w-full pt-10 flex flex-col">
+                <View className="w-full flex flex-col">
                     <View className="flex flex-row justify-between px-8">
                         {/* Title */}
                         <View>
@@ -77,78 +81,107 @@ export default function Login() {
                     </View>
 
                     {/* Background Image */}
-                    <View className="mt-6">
-                        <Image
-                            source={require("../../assets/background_login_strokes.png")}
-                            className="w-full h-24"
-                        />
-                    </View>
+                    <Image
+                        source={require("../../assets/background_login_strokes.png")}
+                        className="w-full h-24 mt-6"
+                    />
                 </View>
 
-                {/* Main Container */}
-                <ScrollView className="grow px-5">
-                    {/* Title and Subtitle */}
-                    <View className="mt-10">
-                        <Text className="font-bold text-2xl">
-                            {id == "1" ? "Iniciar Sesión" : "Registro"}
-                        </Text>
-                        <Text className="mt-3">
-                            {id == "1" ? "Bienvenido/a de nuevo a Reda" : "Bienvenido/a a Reda empieza registrandote"}
-                        </Text>
-                    </View>
-
-                    {/* Email Form */}
-                    <View className="mt-10">
-                        <Text className="font-bold">Correo Electrónico</Text>
-                        <TextInput
-                            className='h-14 border-[#ddd] border p-2 rounded'
-                            value={email}
-                            onChangeText={setEmail}
-                            placeholder="ejemplo@gmail.com"
-                            autoCapitalize="none"
-                        />
-                    </View>
-
-                    {/* Password Form */}
-                    <View className="mt-5">
-                        <Text className="font-bold">Contraseña</Text>
-                        <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
-                            <TextInput
-                                className='w-[85%] mr-2'
-                                value={password}
-                                onChangeText={setPassword}
-                                placeholder="••••••••"
-                                secureTextEntry={!showPassword}
-                            />
-                            <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
-                                <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
-                            </Pressable>
-                        </View>
-                    </View>
-
-                    {/* Recover Password or Repeat Password Form */}
-                    {id == "1" ? 
-                        <View className="items-center mt-7">
-                            <Text className="underline">¿Olvidaste tu contraseña?</Text>
-                        </View>
-                    :
-                        <View className="mt-5">
-                            <Text className="font-bold">Confirmar Contraseña</Text>
-                            <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
-                                <TextInput
-                                    className='w-[85%] mr-2'
-                                    value={passwordRepeated}
-                                    onChangeText={setPasswordRepeated}
-                                    placeholder="••••••••"
-                                    secureTextEntry={!showPassword}
-                                />
-                                <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
-                                    <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
-                                </Pressable>
+                {/* Main Content Scroll */}
+                <KeyboardAvoidingView behavior="padding" className="grow h-1">
+                    <ScrollView className="grow my-7">
+                        {/* Main Container */}
+                        <View className="px-5">
+                            {/* Title and Subtitle */}
+                            <View className="">
+                                <Text className="font-bold text-2xl">
+                                    {id == "1" ? "Iniciar Sesión" : "Crea una cuenta"}
+                                </Text>
+                                <Text className="mt-3">
+                                    {id == "1" ? "Bienvenido/a de nuevo a Reda" : "Bienvenido/a a Reda"}
+                                </Text>
                             </View>
+
+                            {/* Name Form */}
+                            {id == "2" && 
+                                <View className="mt-8">
+                                    <Text className="font-bold">Nombre</Text>
+                                    <TextInput
+                                        className='h-14 border-[#ddd] border p-2 rounded'
+                                        value={name}
+                                        onChangeText={setName}
+                                        placeholder="Tu nombre"
+                                    />
+                                </View>
+                            }
+
+                            {/* Birthday Form */}
+                            {id == "2" && 
+                                <View className="mt-5">
+                                    <Text className="font-bold">Fecha de Nacimiento</Text>
+                                    <TextInput
+                                        className='h-14 border-[#ddd] border p-2 rounded'
+                                        value={birthday}
+                                        onChangeText={setBirthday}
+                                        placeholder="dd/mm/aaaa"
+                                    />
+                                </View>
+                            }
+
+                            {/* Email Form */}
+                            <View className={id == "1" ? "mt-10" : "mt-5"}>
+                                <Text className="font-bold">Correo Electrónico</Text>
+                                <TextInput
+                                    className='h-14 border-[#ddd] border p-2 rounded'
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    placeholder="ejemplo@gmail.com"
+                                    autoCapitalize="none"
+                                />
+                            </View>
+
+                            {/* Password Form */}
+                            <View className="mt-5">
+                                <Text className="font-bold">Contraseña</Text>
+                                <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
+                                    <TextInput
+                                        className='w-[85%] mr-2'
+                                        value={password}
+                                        onChangeText={setPassword}
+                                        placeholder="••••••••"
+                                        secureTextEntry={!showPassword}
+                                    />
+                                    <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
+                                        <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
+                                    </Pressable>
+                                </View>
+                            </View>
+
+                            {/* Recover Password or Repeat Password Form */}
+                            {id == "1" ? 
+                                <View className="items-center mt-7">
+                                    <Text className="underline">¿Olvidaste tu contraseña?</Text>
+                                </View>
+                            :
+                                <View className="mt-5">
+                                    <Text className="font-bold">Confirmar Contraseña</Text>
+                                    <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
+                                        <TextInput
+                                            className='w-[85%] mr-2'
+                                            value={passwordRepeated}
+                                            onChangeText={setPasswordRepeated}
+                                            placeholder="••••••••"
+                                            secureTextEntry={!showPassword}
+                                        />
+                                        <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
+                                            <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
+                                        </Pressable>
+                                    </View>
+                                </View>
+                            }
                         </View>
-                    }
-                </ScrollView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
 
                 {/* Continue and Switch */}
                 <View className="w-full pb-10 items-center">
@@ -163,7 +196,7 @@ export default function Login() {
                     </Pressable>
 
                     {/* Sign Up Link */}
-                    <Link asChild href={id == "1" ? "/login/2" : "/login/1"} className="mt-12">
+                    <Link asChild href={id == "1" ? "/login/2" : "/login/1"} className="mt-5">
                         <Pressable>
                             <Text className="text-[#00A435] active:text-black underline">
                                 {id == "1" ? "Crear una cuenta" : "Ya tengo una cuenta"}
@@ -173,6 +206,6 @@ export default function Login() {
                 </View>
             </View>
             <Toast/>
-        </KeyboardAvoidingView>
+        </>
     )
 }

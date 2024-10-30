@@ -55,7 +55,7 @@ export default function Welcome() {
                 </Link>
 
                 {/* Sign Up Link */}
-                <Link asChild href='/login/2' className="mt-12">
+                <Link asChild href='/login/2' className="mt-5">
                     <Pressable>
                         <Text className="text-[#00A435] active:text-black underline">Crear una cuenta</Text>
                     </Pressable>

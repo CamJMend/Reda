@@ -2,8 +2,9 @@ import { View, Text, Pressable, Image, TextInput, KeyboardAvoidingView, ScrollVi
 import { useLocalSearchParams, Link, router } from "expo-router";
 import { useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
+import { collection, addDoc } from "firebase/firestore";
 import Toast from 'react-native-toast-message';
-import { auth } from "../../components/initApp";
+import { auth, db } from "../../components/initApp";
 import { admins } from "./admins";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
@@ -30,9 +31,27 @@ export default function Login() {
             } else if (id == "2") {
                 // Check if the password and the repeated password are the same
                 if (password == passwordRepeated) {
-                    await createUserWithEmailAndPassword(auth, email, password);
+                    const user = (await createUserWithEmailAndPassword(auth, email, password)).user;
+                    Toast.show({
+                        type: 'success',
+                        text1: 'User Created',
+                        text2: "Setting the data...",
+                        visibilityTime: 3000,
+                        autoHide: true
+                    })
+                    try {
+                        var userCollection = collection(db, "users");
+                        await addDoc(userCollection, {
+                            userID: user.uid,
+                            email: email,
+                            name: name,
+                            birthday: birthday
+                        });
+                        router.push('/main/mainScreen')
+                    } catch (error : any) {
+                        console.error("Error adding user data: ", error);
+                    }
                     console.log('User created successfully!');
-                    router.push('/user/data')
                 } else {
                     Toast.show({
                         type: 'error',
@@ -60,9 +79,10 @@ export default function Login() {
 
     return (
         <>
-            <View className="grow">
+            <View className="grow grid-cols-3">
                 {/* Blank top space */}
                 <View className="mb-10"/>
+
                 {/* Header */}
                 <View className="w-full flex flex-col">
                     <View className="flex flex-row justify-between px-8">

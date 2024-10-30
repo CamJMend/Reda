@@ -19,7 +19,7 @@ export default function Welcome() {
 
     return (
         <View className="grow grid-cols-3">
-            {/* Section 1 */}
+            {/* Header */}
             <View className="w-full items-center pt-12">
                 {/* Title */}
                 <Text className="font-bold">By REDA</Text>
@@ -33,7 +33,7 @@ export default function Welcome() {
                 </View>
             </View>
 
-            {/* Section 2 */}
+            {/* Image */}
             <View className="grow w-full flex justify-center">
                 {/* Image Container */}
                 <View className="h-60 w-full">
@@ -45,7 +45,7 @@ export default function Welcome() {
                 </View>
             </View>
 
-            {/* Section 3 */}
+            {/* Buttons */}
             <View className="w-full pb-10 items-center">
                 {/* Log In Button */}
                 <Link asChild href='/login/1'>
@@ -54,7 +54,7 @@ export default function Welcome() {
                     </Pressable>
                 </Link>
 
-                {/* Sign Up Link */}
+                {/* Sign Up Button */}
                 <Link asChild href='/login/2' className="mt-5">
                     <Pressable>
                         <Text className="text-[#00A435] active:text-black underline">Crear una cuenta</Text>

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ScrollView } from "react-native";
+import { View, Text, Pressable, ScrollView, Image } from "react-native";
 import { useState } from "react";
 import Allies from "./forms/allies";
 import Volunteers from "./forms/volunteers";
@@ -22,7 +22,7 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
         <ScrollView className=" relative grow w-full px-10 bg-white">
             {/* Go Back Button */}
             <Pressable
-                className="w-16" onPress={handleGoBack}
+                className="w-16 pb-6" onPress={handleGoBack}
             >
                 <Text className="underline text-[#CE0E2D]">Regresar</Text>
             </Pressable>
@@ -34,27 +34,48 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
             : formScreen == "formInNeed" ?
                 <InNeed userID={userID} userData={userData} docID={docID} />
             : formScreen == "forms" ?
-                <View className="pt-10 items-center">
-                    <Text className="text-lg font-bold">Select a Form</Text>
-                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={() => {
+            <View className="pt-5">
+                <Text className="text-2xl font-bold text-[#333333] pb-0.5">Registro</Text>
+                <Text className="mt-3 mb-2 text-base text-[#666666] pb-0.5">Regístrate para:</Text>
+                
+                <Pressable 
+                    className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center"
+                    onPress={() => {
                         setScreenName("Aliados");
                         setFormScreen("formAllies");
-                    }}>
-                        <Text className="text-white">Aliados</Text>
-                    </Pressable>
-                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={() => {
+                    }}
+                >
+                    <Image source={require('../../assets/icon-hands.png')} className="w-12 h-12" />
+                    <Text className="text-[#F19800] font-semibold text-lg mx-3 mr-8">Ser Aliado</Text>
+                    <Image source={require('../../assets/icon-arrow.png')} className="ml-20 w-4 h-4" />
+                </Pressable>
+
+                
+                <Pressable 
+                    className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center"
+                    onPress={() => {
                         setScreenName("Voluntarios");
                         setFormScreen("formVolunteers");
-                    }}>
-                        <Text className="text-white">Voluntarios</Text>
-                    </Pressable>
-                    <Pressable className="mt-4 p-4 bg-blue-500 rounded" onPress={() => {
+                    }}
+                >
+                    <Image source={require('../../assets/icon-vol.png')} className="w-12 h-12" />
+                    <Text className="text-[#F19800] font-semibold text-lg mx-2 mr-4"> Ser Voluntario</Text>
+                    <Image source={require('../../assets/icon-arrow.png')} className="ml-16 w-4 h-4" />
+                </Pressable>
+                
+                <Pressable 
+                    className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center"
+                    onPress={() => {
                         setScreenName("Red de Ayuda");
                         setFormScreen("formInNeed");
-                    }}>
-                        <Text className="text-white">InNeed</Text>
-                    </Pressable>
-                </View>
+                    }}
+                >
+                    <Image source={require('../../assets/icon-receive.png')} className="w-12 h-12" />
+                    <Text className="text-[#F19800] font-semibold text-lg mx-3 mr-1">Recibir ayuda</Text>
+                    <Image source={require('../../assets/icon-arrow.png')} className="ml-20 w-4 h-4" />
+                </Pressable>
+            </View>
+        
             :
                 <Error404 />
             }

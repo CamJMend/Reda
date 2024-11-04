@@ -1,20 +1,53 @@
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { router } from 'expo-router';
 
-export default function MainHeader({screenName} : any) {
+export default function MainHeader({ screenName }: any) {
+    const [showLogOut, setShowLogOut] = useState(false);
+
+    const toggleLogOut = () => {
+        setShowLogOut(!showLogOut);
+    }
+
+    const handleLogOut = () => {
+        router.navigate('/');
+    }
+
+    const handleNotificationPress = () => {
+        router.navigate('/main/notificationsScreen');
+    }
+
     return (
         <LinearGradient
             colors={['#1D4B40', '#FFF']}
             start={{ x: 1, y: 0 }}
             end={{ x: 1, y: 1 }}
-            className="w-full pt-10 pb-10 flex flex-row items-center justify-around"
+            className="w-full pt-10 pb-10 flex flex-col items-center"
         >
-            <MaterialIcons name="account-circle" size={45} color="white" />
-            <View className="h-14 w-24 justify-end items-center">
-                <Text className="text-white font-bold">{screenName}</Text>
+            <View className="flex flex-row items-center justify-around w-full">
+                <Pressable onPress={toggleLogOut}>
+                    <MaterialIcons name="account-circle" size={45} color="white" />
+                </Pressable>
+
+                <View className="h-14 w-24 justify-end items-center">
+                    <Text className="text-white font-bold">{screenName}</Text>
+                </View>
+
+                <Pressable onPress={handleNotificationPress}>
+                    <MaterialIcons name="notifications" size={45} color="white" />
+                </Pressable>
             </View>
-            <MaterialIcons name="notifications" size={45} color="white" />
+
+            {showLogOut && (
+                <Pressable 
+                    className="px-7 py-3 bg-red-500 rounded mt-3 items-left self-start ml-10"
+                    onPress={handleLogOut}
+                >
+                    <Text className="text-white font-semibold">Log Out</Text>
+                </Pressable>
+            )}
         </LinearGradient>
-    )
+    );
 }

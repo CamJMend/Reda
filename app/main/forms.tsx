@@ -19,7 +19,7 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
     }
 
     return (
-        <ScrollView className=" relative grow w-full px-10 bg-white">
+        <View className="flex-1 w-full px-10 bg-white">
             {/* Go Back Button */}
             <Pressable
                 className="w-16 pb-6" onPress={handleGoBack}
@@ -27,6 +27,7 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
                 <Text className="underline text-[#CE0E2D]">Regresar</Text>
             </Pressable>
 
+            {/* Form Screens */}
             {formScreen == "formAllies" ?
                 <Allies userID={userID} userData={userData} docID={docID} />
             : formScreen == "formVolunteers" ?
@@ -34,7 +35,7 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
             : formScreen == "formInNeed" ?
                 <InNeed userID={userID} userData={userData} docID={docID} />
             : formScreen == "forms" ?
-            <View className="pt-5">
+            <View className="flex-1">
                 <Text className="text-2xl font-bold text-[#333333] pb-0.5">Registro</Text>
                 <Text className="mt-3 mb-2 text-base text-[#666666] pb-0.5">Regístrate para:</Text>
                 
@@ -79,6 +80,6 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
             :
                 <Error404 />
             }
-        </ScrollView>
+        </View>
     );
 }

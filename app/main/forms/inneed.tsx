@@ -61,12 +61,8 @@ export default function InNeed({ userID, userData, docID } : any) {
     };
 
     return (
-        // Necesito corregir scroll
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-        >
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <KeyboardAvoidingView behavior="padding" className="flex-1">
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
                     <Text className="text-2xl font-bold text-[#333333] pb-0.5">REDA</Text>
                     <Text className="text-base text-[#666666] pb-0.5">¿Requieres de apoyo con alimentos?</Text>
@@ -118,7 +114,7 @@ export default function InNeed({ userID, userData, docID } : any) {
                         multiline
                     />
 
-                    <View className="flex items-center justify-center mt-8">
+                    <View className="flex items-center justify-center mt-8 mb-5">
                         <Pressable className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]" onPress={handleSubmit}>
                             <Text className="text-white text-center text-base font-semibold">Enviar</Text>
                         </Pressable>

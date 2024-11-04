@@ -30,7 +30,8 @@ export default function Main() {
             });
         }
 
-        BackHandler.addEventListener("hardwareBackPress", ()=>{return true});
+        // if (screenName == "home" || screenName == "map" || screenName == "forms" || screenName == "formAllies" || screenName == "formVolunteers" || screenName == "formInNeed") {}
+        BackHandler.addEventListener('hardwareBackPress', ()=>{return true})
 
         if (auth.currentUser) {
             setUserID(auth.currentUser.uid);
@@ -42,7 +43,9 @@ export default function Main() {
 
     return (
         <View className="grow justify-between items-center grid-cols-3">
+            {/* Loading Screen */}
             {userData.name ? null : <Loading />}
+
             {/* Header */}
             <MainHeader screenName={screenName}/>
 

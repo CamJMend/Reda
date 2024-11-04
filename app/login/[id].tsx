@@ -108,8 +108,8 @@ export default function Login() {
                 </View>
 
                 {/* Main Content Scroll */}
-                <KeyboardAvoidingView behavior="padding" className="grow h-1">
-                    <ScrollView className="grow my-7">
+                <KeyboardAvoidingView behavior="padding" className="flex-1">
+                    <ScrollView className="grow my-7" showsVerticalScrollIndicator={false}>
                         {/* Main Container */}
                         <View className="px-5">
                             {/* Title and Subtitle */}
@@ -165,15 +165,12 @@ export default function Login() {
                                 <Text className="font-bold">Contraseña</Text>
                                 <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
                                     <TextInput
-                                        className='w-[85%] mr-2'
+                                        className='w-full'
                                         value={password}
                                         onChangeText={setPassword}
                                         placeholder="••••••••"
                                         secureTextEntry={!showPassword}
                                     />
-                                    <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
-                                        <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
-                                    </Pressable>
                                 </View>
                             </View>
 
@@ -203,7 +200,7 @@ export default function Login() {
                     </ScrollView>
                 </KeyboardAvoidingView>
 
-                {/* Continue and Switch */}
+                {/* Continue|Register and Switch */}
                 <View className="w-full pb-10 items-center">
                     {/* Log In Button */}
                     <Pressable

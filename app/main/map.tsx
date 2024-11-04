@@ -37,7 +37,7 @@ export default function Map({ userID, userData, docID } : any) {
     }
 
     return (
-        <View className="relative grow w-full">
+        <View className="relative flex-1 w-full">
             {/* Center Card */}
             {showCenterData ? 
                 <Pressable className="absolute w-full h-full z-10 flex flex-col items-center justify-center bg-[#00000038]" onPress={()=>setShowCenterData(false)}>

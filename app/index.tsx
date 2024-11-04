@@ -34,7 +34,7 @@ export default function Welcome() {
             </View>
 
             {/* Image */}
-            <View className="grow w-full flex justify-center">
+            <View className="flex-1 w-full flex justify-center">
                 {/* Image Container */}
                 <View className="h-60 w-full">
                     {/* Donation Image */}

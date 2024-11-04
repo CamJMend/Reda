@@ -14,7 +14,7 @@ export default function Home({ userID, userData, docID } : any) {
     }
 
     return (
-        <ScrollView className="grow w-full bg-white">
+        <ScrollView className="flex-1 w-full bg-white">
             <View className="items-center">
                 <Text>{userData.name ? userData.name : ""}</Text>
                 <Pressable className="px-6 py-3 bg-red-500 rounded-full" onPress={handleLogOut}>

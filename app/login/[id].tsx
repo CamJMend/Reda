@@ -165,12 +165,15 @@ export default function Login() {
                                 <Text className="font-bold">Contraseña</Text>
                                 <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
                                     <TextInput
-                                        className='w-full'
+                                        className='w-[85%] mr-2'
                                         value={password}
                                         onChangeText={setPassword}
                                         placeholder="••••••••"
                                         secureTextEntry={!showPassword}
                                     />
+                                    <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
+                                        <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
+                                    </Pressable>
                                 </View>
                             </View>
 
@@ -184,15 +187,12 @@ export default function Login() {
                                     <Text className="font-bold">Confirmar Contraseña</Text>
                                     <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">
                                         <TextInput
-                                            className='w-[85%] mr-2'
+                                            className='w-full'
                                             value={passwordRepeated}
                                             onChangeText={setPasswordRepeated}
                                             placeholder="••••••••"
                                             secureTextEntry={!showPassword}
                                         />
-                                        <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
-                                            <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
-                                        </Pressable>
                                     </View>
                                 </View>
                             }

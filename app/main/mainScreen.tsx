@@ -68,7 +68,7 @@ export default function Main() {
             {/* Logout Button */}
             {showLogOut && !loading ?
                 <Pressable 
-                    className="absolute top-[100px] z-10 px-7 py-3 bg-red-500 rounded items-left self-start ml-10"
+                    className="absolute top-[135px] z-10 px-7 py-3 bg-red-500 rounded items-left self-start ml-10"
                     onPress={handleLogOut}
                 >
                     <Text className="text-white font-semibold">Log Out</Text>

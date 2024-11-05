@@ -4,13 +4,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
 
-export default function MainHeader({ screenName, showLogOut, setShowLogOut }: any) {
+export default function MainHeader({ screenName, setScreen, setScreenName, showLogOut, setShowLogOut }: any) {
     const toggleLogOut = () => {
         setShowLogOut(!showLogOut);
     }
 
     const handleNotificationPress = () => {
-        router.navigate('/main/notificationsScreen');
+        setScreen('notifications')
+        setScreenName('Notificaciones')
     }
 
     return (
@@ -25,7 +26,7 @@ export default function MainHeader({ screenName, showLogOut, setShowLogOut }: an
                     <MaterialIcons name="account-circle" size={45} color="white" />
                 </Pressable>
 
-                <View className="h-14 w-24 justify-end items-center">
+                <View className="h-14 w-28 justify-end items-center">
                     <Text className="text-white font-bold">{screenName}</Text>
                 </View>
 

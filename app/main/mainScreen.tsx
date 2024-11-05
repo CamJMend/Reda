@@ -9,6 +9,7 @@ import MainTab from "../../components/mainTab";
 import Home from "./home";
 import Map from "./map";
 import Forms from "./forms";
+import NotificationsScreen from "./notificationsScreen";
 import Loading from "../../components/loading";
 import Error404 from "../../components/error404";
 
@@ -20,12 +21,23 @@ export default function Main() {
     const [userData, setUserData] = useState<any>({})
     const [docID, setDocID] = useState("")
     const [showLogOut, setShowLogOut] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const handleLogOut = () => {
         router.navigate('/');
     }
 
+    const setTimeOut = (time:any) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+            resolve("Se resolvió después de 3 segundos");
+            }, time*1000); // 3000 milisegundos = 3 segundos
+        });
+    };
+
     useEffect(() => {
+        setLoading(true)
+
         const getUserData = async () => {
             const users = collection(db, "users");
             const q = query(users, where("userID", "==", userID));
@@ -42,6 +54,7 @@ export default function Main() {
         if (auth.currentUser) {
             setUserID(auth.currentUser.uid);
             getUserData();
+            setTimeOut(2).then(()=>{setLoading(false)})
         } else {
             console.log("No user is currently logged in.");
         }
@@ -50,10 +63,10 @@ export default function Main() {
     return (
         <View className="relative grow justify-between items-center grid-cols-3">
             {/* Loading Screen */}
-            {userData.name ? null : <Loading />}
+            {loading ? <Loading /> : null}
 
             {/* Logout Button */}
-            {showLogOut ?
+            {showLogOut && !loading ?
                 <Pressable 
                     className="absolute top-[100px] z-10 px-7 py-3 bg-red-500 rounded items-left self-start ml-10"
                     onPress={handleLogOut}
@@ -63,7 +76,7 @@ export default function Main() {
             : null}
 
             {/* Header */}
-            <MainHeader screenName={screenName} showLogOut={showLogOut} setShowLogOut={setShowLogOut}/>
+            <MainHeader screenName={screenName} setScreen={setScreen} setScreenName={setScreenName} showLogOut={showLogOut} setShowLogOut={setShowLogOut}/>
 
             {/* Main Content */}
             {screen == "home" ?
@@ -72,6 +85,8 @@ export default function Main() {
                 <Map userID={userID} userData={userData} docID={docID} />
             : screen == "forms" ?
                 <Forms userID={userID} userData={userData} docID={docID} setScreen={setScreen} setScreenName={setScreenName} />
+            : screen == "notifications" ?
+                <NotificationsScreen userData={userData} docID={docID} />
             :
                 <Error404 />
             }

@@ -26,6 +26,12 @@ export default function App() {
                 }}
             />
             <Stack.Screen
+                name="main/notificationsScreen"
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
                 name="admin/adminMainScreen"
                 options={{
                     headerShown: false,

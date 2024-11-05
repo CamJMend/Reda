@@ -4,15 +4,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
 
-export default function MainHeader({ screenName }: any) {
-    const [showLogOut, setShowLogOut] = useState(false);
-
+export default function MainHeader({ screenName, showLogOut, setShowLogOut }: any) {
     const toggleLogOut = () => {
         setShowLogOut(!showLogOut);
-    }
-
-    const handleLogOut = () => {
-        router.navigate('/');
     }
 
     const handleNotificationPress = () => {
@@ -39,15 +33,6 @@ export default function MainHeader({ screenName }: any) {
                     <MaterialIcons name="notifications" size={45} color="white" />
                 </Pressable>
             </View>
-
-            {showLogOut && (
-                <Pressable 
-                    className="px-7 py-3 bg-red-500 rounded mt-3 items-left self-start ml-10"
-                    onPress={handleLogOut}
-                >
-                    <Text className="text-white font-semibold">Log Out</Text>
-                </Pressable>
-            )}
         </LinearGradient>
     );
 }

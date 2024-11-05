@@ -1,7 +1,8 @@
-import { View } from "react-native";
+import { View, Pressable, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../../components/initApp";
+import { router } from 'expo-router';
 import { BackHandler } from "react-native";
 import MainHeader from "../../components/mainHeader";
 import MainTab from "../../components/mainTab";
@@ -18,6 +19,11 @@ export default function Main() {
     const [userID, setUserID] = useState("")
     const [userData, setUserData] = useState<any>({})
     const [docID, setDocID] = useState("")
+    const [showLogOut, setShowLogOut] = useState(false)
+
+    const handleLogOut = () => {
+        router.navigate('/');
+    }
 
     useEffect(() => {
         const getUserData = async () => {
@@ -42,12 +48,22 @@ export default function Main() {
     },[userID, reload]);
 
     return (
-        <View className="grow justify-between items-center grid-cols-3">
+        <View className="relative grow justify-between items-center grid-cols-3">
             {/* Loading Screen */}
             {userData.name ? null : <Loading />}
 
+            {/* Logout Button */}
+            {showLogOut ?
+                <Pressable 
+                    className="absolute top-[100px] z-10 px-7 py-3 bg-red-500 rounded items-left self-start ml-10"
+                    onPress={handleLogOut}
+                >
+                    <Text className="text-white font-semibold">Log Out</Text>
+                </Pressable>
+            : null}
+
             {/* Header */}
-            <MainHeader screenName={screenName}/>
+            <MainHeader screenName={screenName} showLogOut={showLogOut} setShowLogOut={setShowLogOut}/>
 
             {/* Main Content */}
             {screen == "home" ?

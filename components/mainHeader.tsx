@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { router } from 'expo-router';
+import { ProfileIcon, NotificationsIcon } from './svgExports';
 
 export default function MainHeader({ screenName, setScreen, setScreenName, showLogOut, setShowLogOut }: any) {
     const toggleLogOut = () => {
@@ -23,7 +22,7 @@ export default function MainHeader({ screenName, setScreen, setScreenName, showL
         >
             <View className="flex flex-row items-center justify-around w-full">
                 <Pressable onPress={toggleLogOut}>
-                    <MaterialIcons name="account-circle" size={45} color="white" />
+                    <ProfileIcon size={45} color="white" />
                 </Pressable>
 
                 <View className="h-14 w-28 justify-end items-center">
@@ -31,7 +30,7 @@ export default function MainHeader({ screenName, setScreen, setScreenName, showL
                 </View>
 
                 <Pressable onPress={screenName == 'Notificaciones' ? ()=>{return} : handleNotificationPress}>
-                    <MaterialIcons name="notifications" size={45} color="white" />
+                    <NotificationsIcon size={45} color="white" />
                 </Pressable>
             </View>
         </LinearGradient>

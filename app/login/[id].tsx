@@ -6,7 +6,7 @@ import { collection, addDoc } from "firebase/firestore";
 import Toast from 'react-native-toast-message';
 import { auth, db } from "../../components/initApp";
 import { admins } from "./admins";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { EyeIcon } from "../../components/svgExports";
 
 export default function Login() {
     const [name, setName] = useState("")
@@ -172,7 +172,7 @@ export default function Login() {
                                         secureTextEntry={!showPassword}
                                     />
                                     <Pressable onPress={handleShowPassword} className="h-full w-[15%] items-center justify-center">
-                                        <FontAwesome name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
+                                        <EyeIcon name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
                                     </Pressable>
                                 </View>
                             </View>

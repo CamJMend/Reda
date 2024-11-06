@@ -30,7 +30,7 @@ export default function MainHeader({ screenName, setScreen, setScreenName, showL
                     <Text className="text-white font-bold">{screenName}</Text>
                 </View>
 
-                <Pressable onPress={handleNotificationPress}>
+                <Pressable onPress={screenName == 'Notificaciones' ? ()=>{return} : handleNotificationPress}>
                     <MaterialIcons name="notifications" size={45} color="white" />
                 </Pressable>
             </View>

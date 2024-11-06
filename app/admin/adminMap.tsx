@@ -3,7 +3,7 @@ import { useState } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { aidCenters } from "../aidCenters";
 
-export default function Map({ userID, userData, docID } : any) {
+export default function AdminMap() {
     const [showCenterData, setShowCenterData] = useState(false);
     const [centerSelected, setCenterSelected] = useState(0);
     const [origin, setOrigin] = useState({

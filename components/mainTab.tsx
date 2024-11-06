@@ -1,6 +1,5 @@
-import { View, Pressable, Image } from "react-native"
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { View, Pressable } from "react-native"
+import { LocationIcon, HomeIcon, AidIcon } from "./svgExports";
 
 export default function MainTab({ screen, setScreen, setScreenName } : any) {
     return (
@@ -12,7 +11,7 @@ export default function MainTab({ screen, setScreen, setScreenName } : any) {
                     setScreenName("Mapa");
                 }}
             >
-                <MaterialIcons name="location-on" size={screen == "map" ? 50 : 40} color={screen == "map" ? "#074F40" : "#c6c7c5"} />
+                <LocationIcon size={screen == "map" ? 50 : 40} color={screen == "map" ? "#074F40" : "#c6c7c5"} />
             </Pressable>
             <Pressable 
                 className={`w-20 h-20 rounded-full static justify-center items-center ${screen == "home" ? "border-4 border-[#074F40]" : ""}`}
@@ -21,7 +20,7 @@ export default function MainTab({ screen, setScreen, setScreenName } : any) {
                     setScreenName("Inicio");
                 }}
             >
-                <FontAwesome5 name="home" size={screen == "home" ? 45 : 35} color={screen == "home" ? "#074F40" : "#c6c7c5"} />
+                <HomeIcon size={screen == "home" ? 45 : 35} color={screen == "home" ? "#074F40" : "#c6c7c5"} />
             </Pressable>
             <Pressable 
                 className={`w-20 h-20 rounded-full static justify-center items-center ${screen == "forms" ? "border-4 border-[#074F40]" : ""}`}
@@ -30,7 +29,7 @@ export default function MainTab({ screen, setScreen, setScreenName } : any) {
                     setScreenName("Registro");
                 }}
             >
-                <MaterialIcons name="handshake" size={screen == "forms" ? 50 : 40} color={screen == "forms" ? "#074F40" : "#c6c7c5"} />
+                <AidIcon size={screen == "forms" ? 50 : 40} color={screen == "forms" ? "#074F40" : "#c6c7c5"} />
             </Pressable>
         </View>
     )

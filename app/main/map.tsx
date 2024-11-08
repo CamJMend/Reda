@@ -1,9 +1,8 @@
 import { View, Text, Pressable } from "react-native";
 import { useState } from "react";
 import MapView, { Marker } from "react-native-maps";
-import { aidCenters } from "../aidCenters";
 
-export default function Map({ userID, userData, docID } : any) {
+export default function Map({ aidCenters } : any) {
     const [showCenterData, setShowCenterData] = useState(false);
     const [centerSelected, setCenterSelected] = useState(0);
     const [origin, setOrigin] = useState({
@@ -40,7 +39,7 @@ export default function Map({ userID, userData, docID } : any) {
                     longitudeDelta: 0.3
                 }}
             >
-                {aidCenters.map((center, index) => {
+                {aidCenters.map((center:any, index:any) => {
                     return (
                         <Marker
                             key={index}

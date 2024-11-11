@@ -1,4 +1,4 @@
-import { View, Text, Pressable, TextInput, ActivityIndicator } from "react-native"
+import { View, Text, Pressable, TextInput, ActivityIndicator, ScrollView, KeyboardAvoidingView } from "react-native"
 import { useState, useEffect } from "react"
 import { TrashIcon } from "./svgExports"
 import { collection, addDoc, getDocs, updateDoc, query, where } from "firebase/firestore";
@@ -101,76 +101,80 @@ export default function PointForm ({ setShowNewPoint, setShowEditPoint, setShowC
     },[])
 
     return (
-        <Pressable className="w-[80%] p-5 border-4 rounded-3xl border-[#F19800] bg-white">
-            {isLoadingPoint ?
-                <View className="absolute w-[100%] h-[100%] m-5 flex justify-center items-center bg-white z-10">
-                    <ActivityIndicator size="large" color="#1D4B40" />
-                    <Text className="text-md mt-4">Cargando...</Text>
-                </View>
-            : null}
-            
+        <KeyboardAvoidingView behavior="padding">
+            <ScrollView contentContainerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+                <Pressable className="w-[80%] p-5 border-4 rounded-3xl border-[#F19800] bg-white">
+                    {isLoadingPoint ?
+                        <View className="absolute w-[100%] h-[100%] m-5 flex justify-center items-center bg-white z-10">
+                            <ActivityIndicator size="large" color="#1D4B40" />
+                            <Text className="text-md mt-4">Cargando...</Text>
+                        </View>
+                    : null}
+                    
 
-            {/* Delete Icon */}
-            {form == "editPoint" ?
-                <Pressable className="absolute right-5 top-5" onPress={handleDeletePoint}>
-                    <TrashIcon size={25} color="black" />
+                    {/* Delete Icon */}
+                    {form == "editPoint" ?
+                        <Pressable className="absolute z-10 right-5 top-5" onPress={handleDeletePoint}>
+                            <TrashIcon size={25} color="black" />
+                        </Pressable>
+                    : null}
+
+                    {/* Go Back */}
+                    <Pressable className="w-16"
+                        onPress={()=>{
+                            if (form == "newPoint") {
+                                setShowNewPoint(false)
+                            } else {
+                                setShowEditPoint(false)
+                                setShowCenterData(true)
+                            }
+                        }}
+                    >
+                        <Text className="underline text-[#CE0E2D]">Regresar</Text>
+                    </Pressable>
+
+                    {/* Title */}
+                    <Text className="mt-3 text-center text-xl font-bold">{form == "newPoint" ? "Nuevo Punto" : "Editar Punto"}</Text>
+
+                    {/* Description */}
+                    <Text className="mt-3 w-9/12 text-xs">Asegurate de que todos los campos contengan información, y que cumplan con las características necesarias</Text>
+
+                    {/* Name Input */}
+                    <Text className="mt-3 text-lg font-bold">Nombre</Text>
+                    <TextInput
+                        className='mt-1 border-[#ddd] border p-2 rounded'
+                        onChangeText={setNamePoint}
+                        value={namePoint}
+                        placeholder="Nombre del punto"
+                    />
+
+                    {/* Location Input */}
+                    <Text className="mt-3 text-lg font-bold">Ubicación</Text>
+                    <TextInput
+                        className='mt-1 border-[#ddd] border p-2 rounded'
+                        onChangeText={setLocationPoint}
+                        value={locationPoint}
+                        placeholder="Ingresa la ubicación del punto"
+                    />
+
+                    {/* Description Input */}
+                    <Text className="mt-3 text-lg font-bold">Información sobre el punto</Text>
+                    <TextInput
+                        className='mt-1 max-h-[80px] border-[#ddd] border p-2 rounded'
+                        onChangeText={setDescriptionPoint}
+                        value={descriptionPoint}
+                        multiline={true}
+                        placeholder="Agrega la información adicional sobre el punto de recolección"
+                    />
+
+                    {/* Add Button */}
+                    <View className="mt-5 flex items-center">
+                        <Pressable className="py-3 w-5/6 bg-[#F19800] rounded-full" onPress={handleSubmitPoint}>
+                            <Text className="text-white text-center text-lg font-bold">{form == "newPoint" ? "Agregar" : "Guardar"}</Text>
+                        </Pressable>
+                    </View>
                 </Pressable>
-            : null}
-
-            {/* Go Back */}
-            <Pressable className="w-16"
-                onPress={()=>{
-                    if (form == "newPoint") {
-                        setShowNewPoint(false)
-                    } else {
-                        setShowEditPoint(false)
-                        setShowCenterData(true)
-                    }
-                }}
-            >
-                <Text className="underline text-[#CE0E2D]">Regresar</Text>
-            </Pressable>
-
-            {/* Title */}
-            <Text className="mt-3 text-center text-xl font-bold">{form == "newPoint" ? "Nuevo Punto" : "Editar Punto"}</Text>
-
-            {/* Description */}
-            <Text className="mt-3 w-9/12 text-xs">Asegurate de que todos los campos contengan información, y que cumplan con las características necesarias</Text>
-
-            {/* Name Input */}
-            <Text className="mt-3 text-lg font-bold">Nombre</Text>
-            <TextInput
-                className='mt-1 border-[#ddd] border p-2 rounded'
-                onChangeText={setNamePoint}
-                value={namePoint}
-                placeholder="Nombre del punto"
-            />
-
-            {/* Location Input */}
-            <Text className="mt-3 text-lg font-bold">Ubicación</Text>
-            <TextInput
-                className='mt-1 border-[#ddd] border p-2 rounded'
-                onChangeText={setLocationPoint}
-                value={locationPoint}
-                placeholder="Ingresa la ubicación del punto"
-            />
-
-            {/* Description Input */}
-            <Text className="mt-3 text-lg font-bold">Información sobre el punto</Text>
-            <TextInput
-                className='mt-1 max-h-[80px] border-[#ddd] border p-2 rounded'
-                onChangeText={setDescriptionPoint}
-                value={descriptionPoint}
-                multiline={true}
-                placeholder="Agrega la información adicional sobre el punto de recolección"
-            />
-
-            {/* Add Button */}
-            <View className="mt-5 flex items-center">
-                <Pressable className="py-3 px-24 bg-[#F19800] rounded-full" onPress={handleSubmitPoint}>
-                    <Text className="text-white text-lg font-bold">{form == "newPoint" ? "Agregar" : "Guardar"}</Text>
-                </Pressable>
-            </View>
-        </Pressable>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }

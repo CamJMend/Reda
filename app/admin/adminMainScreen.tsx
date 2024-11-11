@@ -95,7 +95,7 @@ export default function AdminMainScreen() {
             {screen == "home" ?
                 <AdminHome />
             : screen == "map" ?
-                <AdminMap aidCenters={aidCenters} />
+                <AdminMap aidCenters={aidCenters} reload={reload} setReload={setReload} />
             : screen == "forms" ?
                 <AdminForms setScreen={setScreen} setScreenName={setScreenName} />
             : screen == "notifications" ?

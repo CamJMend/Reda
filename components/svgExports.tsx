@@ -4,6 +4,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
 
 export const HandShakeIcon = (props : any) => {
     return <FontAwesome6 name="handshake" {... props} />
@@ -43,4 +44,16 @@ export const NotificationsIcon = (props : any) => {
 
 export const EyeIcon = (props : any) => {
     return <FontAwesome {... props} />
+};
+
+export const AddIcon = (props : any) => {
+    return <Entypo name="plus" color="white" {... props} />
+};
+
+export const PencilIcon = (props : any) => {
+    return <EvilIcons name="pencil" {... props} />
+};
+
+export const TrashIcon = (props : any) => {
+    return <FontAwesome name="trash" {... props} />
 };

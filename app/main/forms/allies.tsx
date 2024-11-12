@@ -10,6 +10,7 @@ export default function Allies({ userID, userData, docID } : any) {
     const [ciudad, setCiudad] = useState("");
     const [empresa, setEmpresa] = useState("");
     const [servicios, setServicios] = useState("");
+    const [status, setStatus] = useState("");
 
     const handleSubmit = async () => {
         const userID = auth.currentUser?.uid;
@@ -47,6 +48,7 @@ export default function Allies({ userID, userData, docID } : any) {
                 empresa,
                 servicios,
                 createdAt: new Date(),
+                status: "to_do"
             });
             console.log("Form allies submitted successfully!");
             Alert.alert("Enviado", "Formulario enviado correctamente. Pronto daremos seguimiento a tu solicitud.");

@@ -10,6 +10,7 @@ export default function Volunteers({ userID, userData, docID } : any) {
     const [ciudad, setCiudad] = useState("");
     const [fechasDisponibilidad, setFechasDisponibilidad] = useState("");
     const [mensaje, setMensaje] = useState("");
+    const [status, setStatus] = useState("");
 
     const handleSubmit = async () => {
         const userID = auth.currentUser?.uid;
@@ -47,6 +48,7 @@ export default function Volunteers({ userID, userData, docID } : any) {
                 fechasDisponibilidad,
                 mensaje,
                 createdAt: new Date(),
+                status: "to_do"
             });
             console.log("Form Vol submitted successfully!");
             Alert.alert("Enviado", "Formulario enviado correctamente. Pronto daremos seguimiento a tu solicitud.");

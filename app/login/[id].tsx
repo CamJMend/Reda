@@ -1,12 +1,13 @@
 import { View, Text, Pressable, Image, TextInput, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useLocalSearchParams, Link, router } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
 import { collection, addDoc } from "firebase/firestore";
 import Toast from 'react-native-toast-message';
 import { auth, db } from "../../components/initApp";
 import { admins } from "./admins";
 import { EyeIcon } from "../../components/svgExports";
+import zxcvbn from "zxcvbn";  // Importamos la librería para medir la seguridad
 
 export default function Login() {
     const [name, setName] = useState("")
@@ -15,7 +16,15 @@ export default function Login() {
     const [password, setPassword] = useState("")
     const [passwordRepeated, setPasswordRepeated] = useState("")
     const [showPassword, setShowPassword] = useState(false)
+    const [passwordStrength, setPasswordStrength] = useState(0)  // Estado para la seguridad de la contraseña
     const { id } = useLocalSearchParams()
+
+    useEffect(() => {
+        if (password) {
+            const result = zxcvbn(password);  // Calculamos la seguridad de la contraseña
+            setPasswordStrength(result.score);  // Guardamos el puntaje
+        }
+    }, [password]);  // Se ejecuta cada vez que cambia la contraseña
 
     const handleLogIn = async () => {
         try {
@@ -29,7 +38,6 @@ export default function Login() {
                     router.push('/main/mainScreen')
                 }
             } else if (id == "2") {
-                // Check if the password and the repeated password are the same
                 if (password == passwordRepeated) {
                     const user = (await createUserWithEmailAndPassword(auth, email, password)).user;
                     Toast.show({
@@ -77,6 +85,13 @@ export default function Login() {
         setShowPassword(!showPassword)
     }
 
+    const getPasswordStrengthColor = () => {
+        if (passwordStrength === 0) return "bg-gray-300";
+        if (passwordStrength <= 1) return "bg-red-500";
+        if (passwordStrength === 2) return "bg-yellow-500";
+        return "bg-green-500";
+    };
+
     return (
         <>
             <View className="grow grid-cols-3">
@@ -122,32 +137,6 @@ export default function Login() {
                                 </Text>
                             </View>
 
-                            {/* Name Form */}
-                            {id == "2" && 
-                                <View className="mt-8">
-                                    <Text className="font-bold">Nombre</Text>
-                                    <TextInput
-                                        className='h-14 border-[#ddd] border p-2 rounded'
-                                        value={name}
-                                        onChangeText={setName}
-                                        placeholder="Tu nombre"
-                                    />
-                                </View>
-                            }
-
-                            {/* Birthday Form */}
-                            {id == "2" && 
-                                <View className="mt-5">
-                                    <Text className="font-bold">Fecha de Nacimiento</Text>
-                                    <TextInput
-                                        className='h-14 border-[#ddd] border p-2 rounded'
-                                        value={birthday}
-                                        onChangeText={setBirthday}
-                                        placeholder="dd/mm/aaaa"
-                                    />
-                                </View>
-                            }
-
                             {/* Email Form */}
                             <View className={id == "1" ? "mt-10" : "mt-5"}>
                                 <Text className="font-bold">Correo Electrónico</Text>
@@ -175,9 +164,12 @@ export default function Login() {
                                         <EyeIcon name={showPassword ? "eye" : "eye-slash"} size={30} color="black" />
                                     </Pressable>
                                 </View>
+
+                                {/* Barra de seguridad */}
+                                <View className={`h-2 mt-2 ${getPasswordStrengthColor()}`} />
                             </View>
 
-                            {/* Recover Password or Repeat Password Form */}
+                            {/* Confirmar Contraseña Form */}
                             {id == "1" ? 
                                 <View className="items-center mt-7">
                                     <Text className="underline">¿Olvidaste tu contraseña?</Text>
@@ -202,7 +194,6 @@ export default function Login() {
 
                 {/* Continue|Register and Switch */}
                 <View className="w-full pb-10 items-center">
-                    {/* Log In Button */}
                     <Pressable
                         className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]"
                         onPress={handleLogIn}
@@ -212,7 +203,6 @@ export default function Login() {
                         </Text>
                     </Pressable>
 
-                    {/* Sign Up Link */}
                     <Link asChild href={id == "1" ? "/login/2" : "/login/1"} className="mt-5">
                         <Pressable>
                             <Text className="text-[#00A435] active:text-black underline">

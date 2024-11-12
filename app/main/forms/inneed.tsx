@@ -9,6 +9,7 @@ export default function InNeed({ userID, userData, docID } : any) {
     const [telefono, setTelefono] = useState("");
     const [ciudad, setCiudad] = useState("");
     const [mensaje, setMensaje] = useState("");
+    const [status, setStatus] = useState("");
 
     const handleSubmit = async () => {
         const userID = auth.currentUser?.uid;
@@ -45,6 +46,7 @@ export default function InNeed({ userID, userData, docID } : any) {
                 ciudad,
                 mensaje,
                 createdAt: new Date(),
+                status: "to_do"
             });
             console.log("Form In Need submitted successfully!");
             Alert.alert("Enviado", "Formulario enviado correctamente. Pronto daremos seguimiento a tu solicitud.");

@@ -13,12 +13,39 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
     const [asunto, setAsunto] = useState<string>("");
     const [mensaje, setMensaje] = useState<string>("");
 
-    const handleSendResponse = () => {
+    const handleSendResponse = async () => {
         if (!asunto || !mensaje) {
             Alert.alert("Error", "Por favor complete todos los campos.");
             return;
         }
+    
+        try {
+            const response = await fetch("https://reda-back.onrender.com/send-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                    to: data.correo,
+                    subject: asunto,
+                    text: mensaje,
+                }),
+            });
+    
+            if (response.ok) {
+                Alert.alert("Éxito", "Correo enviado exitosamente");
+                setAsunto("")
+                setMensaje("")
+            } else {
+                Alert.alert("Error", "No se pudo enviar el correo");
+            }
+        } catch (error) {
+            console.error("Error al enviar el correo:", error);
+            Alert.alert("Error", "Ocurrió un problema al enviar el correo");
+        }
     };
+    
 
     const getCollectionReference = () => {
         switch (type) {

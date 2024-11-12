@@ -11,7 +11,6 @@ import zxcvbn from "zxcvbn";  // Importamos la librería para medir la seguridad
 
 export default function Login() {
     const [name, setName] = useState("")
-    const [birthday, setBirthday] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordRepeated, setPasswordRepeated] = useState("")
@@ -52,8 +51,7 @@ export default function Login() {
                         await addDoc(userCollection, {
                             userID: user.uid,
                             email: email,
-                            name: name,
-                            birthday: birthday
+                            name: name
                         });
                         router.push('/main/mainScreen')
                     } catch (error : any) {
@@ -136,6 +134,19 @@ export default function Login() {
                                     {id == "1" ? "Bienvenido/a de nuevo a Reda" : "Bienvenido/a a Reda"}
                                 </Text>
                             </View>
+
+                            {/* Name Form */}
+                            {id == "2" && 
+                                <View className="mt-8">
+                                    <Text className="font-bold">Nombre</Text>
+                                    <TextInput
+                                        className='h-14 border-[#ddd] border p-2 rounded'
+                                        value={name}
+                                        onChangeText={setName}
+                                        placeholder="Tu nombre"
+                                    />
+                                </View>
+                            }
 
                             {/* Email Form */}
                             <View className={id == "1" ? "mt-10" : "mt-5"}>

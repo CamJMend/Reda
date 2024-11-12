@@ -166,7 +166,9 @@ export default function Login() {
                                 </View>
 
                                 {/* Barra de seguridad */}
-                                <View className={`h-2 mt-2 ${getPasswordStrengthColor()}`} />
+                                {id == "2" ?
+                                    <View className={`h-2 mt-2 ${getPasswordStrengthColor()}`} />
+                                : null}
                             </View>
 
                             {/* Confirmar Contraseña Form */}

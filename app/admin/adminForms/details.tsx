@@ -1,4 +1,5 @@
-import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, Alert } from "react-native";
+import { useState } from "react";
+import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, Alert, TextInput } from "react-native";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../components/initApp";
 
@@ -9,6 +10,15 @@ interface DetailsProps {
 }
 
 export default function Details({ data, type, onStatusChange }: DetailsProps) {
+    const [asunto, setAsunto] = useState<string>("");
+    const [mensaje, setMensaje] = useState<string>("");
+
+    const handleSendResponse = () => {
+        if (!asunto || !mensaje) {
+            Alert.alert("Error", "Por favor complete todos los campos.");
+            return;
+        }
+    };
 
     const getCollectionReference = () => {
         switch (type) {
@@ -125,6 +135,30 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
                     </View>
 
                     <Text className="text-2xl font-bold mb-5 mt-5">Responder</Text>
+                    {/* Campo para el asunto */}
+                    <TextInput
+                        className="border border-gray-300 rounded-md p-2 w-full py-3"
+                        placeholder="Asunto"
+                        value={asunto}
+                        onChangeText={setAsunto}
+                    />
+
+                    {/* Campo para el mensaje */}
+                    <TextInput
+                        className="border border-gray-300 rounded-md p-2 w-full py-3 mt-4 h-60 mb-5"
+                        placeholder="Mensaje"
+                        value={mensaje}
+                        onChangeText={setMensaje}
+                        multiline
+                        numberOfLines={4}
+                    />
+
+                    {/* Botón para enviar respuesta */}
+                    <View className="flex items-center justify-center mb-5">
+                        <TouchableOpacity className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]" onPress={handleSendResponse}>
+                            <Text className="text-white text-center text-base font-semibold">Enviar Respuesta</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>

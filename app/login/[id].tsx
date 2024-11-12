@@ -149,7 +149,7 @@ export default function Login() {
                             }
 
                             {/* Email Form */}
-                            <View className={id == "1" ? "mt-10" : "mt-5"}>
+                            <View className={id == "1" ? "mt-8" : "mt-5"}>
                                 <Text className="font-bold">Correo Electrónico</Text>
                                 <TextInput
                                     className='h-14 border-[#ddd] border p-2 rounded'

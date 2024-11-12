@@ -67,8 +67,8 @@ export default function AdminForms({ setScreen, setScreenName }: any) {
                 }}/>
             ) : formScreen === "forms" ? (
                 <View className="flex-1">
-                    <Text className="text-2xl font-bold text-[#333333] pb-0.5">Registro</Text>
-                    <Text className="mt-3 mb-2 text-base text-[#666666] pb-0.5">Regístrate para:</Text>
+                    <Text className="text-2xl font-bold text-[#333333] pb-0.5">Registros</Text>
+                    <Text className="mt-3 mb-2 text-base text-[#666666] pb-0.5">Formularios llenados para:</Text>
                     
                     <Pressable 
                         className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center"

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, Alert, TextInput } from "react-native";
-import { doc, updateDoc } from "firebase/firestore";
+import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, Alert, TextInput, Modal} from "react-native";
+import { doc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "../../../components/initApp";
 
 interface DetailsProps {
@@ -12,14 +12,23 @@ interface DetailsProps {
 export default function Details({ data, type, onStatusChange }: DetailsProps) {
     const [asunto, setAsunto] = useState<string>("");
     const [mensaje, setMensaje] = useState<string>("");
+    const [popupVisible, setPopupVisible] = useState(false);
+    const textoPredeterminado = "Gracias. Si tienes dudas, continua la conversación por correo electrónico.";
+
+    const handleSelectStatus = (status: string) => {
+        handleStatusChange(status);
+        setPopupVisible(false);
+    };
 
     const handleSendResponse = async () => {
         if (!asunto || !mensaje) {
             Alert.alert("Error", "Por favor complete todos los campos.");
             return;
         }
-    
+
         try {
+            // Enviar correo
+            const mensajeCompleto = `${mensaje}\n\n${textoPredeterminado}`;
             const response = await fetch("https://reda-back.onrender.com/send-email", {
                 method: "POST",
                 headers: {
@@ -29,14 +38,30 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
                 body: JSON.stringify({
                     to: data.correo,
                     subject: asunto,
-                    text: mensaje,
+                    text: mensajeCompleto,
                 }),
             });
-    
+
             if (response.ok) {
                 Alert.alert("Éxito", "Correo enviado exitosamente");
-                setAsunto("")
-                setMensaje("")
+                setAsunto("");
+                setMensaje("");
+                
+                const notificationId = `notif_${Date.now()}`;
+                const docRef = doc(db, "notifications", data.userID); 
+                // Agregar notificación en Firebase
+                await setDoc(docRef, {
+                    notifications: {
+                        [notificationId]: {
+                            subject: asunto,
+                            message: mensajeCompleto,
+                            status: "unseen",
+                            timestamp: new Date().toISOString()
+                        }
+                    }
+                }, { merge: true });
+
+                Alert.alert("Notificación", "Notificación añadida exitosamente al usuario");
             } else {
                 Alert.alert("Error", "No se pudo enviar el correo");
             }
@@ -45,6 +70,7 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
             Alert.alert("Error", "Ocurrió un problema al enviar el correo");
         }
     };
+
     
 
     const getCollectionReference = () => {
@@ -153,11 +179,31 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
                         )}
 
                         {/* Estado con bolita a la derecha */}
-                        <View className="flex-row justify-between border-b border-gray-300 py-2">
-                            <Text className="text-base font-semibold mr-3">Status:</Text>
-                            <TouchableOpacity onPress={() => handleStatusChange("to_do")}>
-                                <Text className="text-base">{data.status}</Text>
-                            </TouchableOpacity>
+                        <View className="border-b border-gray-300 py-2">
+                            <View className="flex-row justify-between">
+                                <Text className="text-base font-semibold mr-3">Status:</Text>
+                                <TouchableOpacity onPress={() => setPopupVisible(!popupVisible)}>
+                                    <Text className="text-base">{data.status}</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* Popup */}
+                            {popupVisible && (
+                                <View className="ml-36 bg-white shadow-sm rounded-lg p-4 mt-4 w-40">
+                                    <TouchableOpacity onPress={() => handleSelectStatus("to_do")}>
+                                        <Text className="text-base mb-2">To Do</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => handleSelectStatus("en_proceso")}>
+                                        <Text className="text-base mb-2">En Proceso</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => handleSelectStatus("completado")}>
+                                        <Text className="text-base mb-2">Completaddo</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => setPopupVisible(false)}>
+                                        <Text className="text-base text-center text-red-500 mt-4">Cancelar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
                         </View>
                     </View>
 

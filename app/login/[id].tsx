@@ -7,7 +7,6 @@ import Toast from 'react-native-toast-message';
 import { auth, db } from "../../components/initApp";
 import { admins } from "./admins";
 import { EyeIcon } from "../../components/svgExports";
-import zxcvbn from "zxcvbn";  // Importamos la librería para medir la seguridad
 
 export default function Login() {
     const [name, setName] = useState("")
@@ -16,16 +15,42 @@ export default function Login() {
     const [password, setPassword] = useState("")
     const [passwordRepeated, setPasswordRepeated] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    const [passwordStrength, setPasswordStrength] = useState(0)  // Estado para la seguridad de la contraseña
+    const [passwordStrength, setPasswordStrength] = useState(0)
     const { id } = useLocalSearchParams()
+    const [requirementsMet, setRequirementsMet] = useState({
+        length: false,
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        specialChar: false
+    });
 
-    useEffect(() => {
-        if (password) {
-            const result = zxcvbn(password);  // Calculamos la seguridad de la contraseña
-            setPasswordStrength(result.score);  // Guardamos el puntaje
-        }
-    }, [password]);  // Se ejecuta cada vez que cambia la contraseña
+    const handlePasswordChange = (text: string) => {
+        setPassword(text);
+        checkPasswordRequirements(text);
+    };
 
+    const checkPasswordRequirements = (password: any) => {
+        const requirements = {
+            length: password.length >= 8 && password.length <= 20,
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password),
+            number: /\d/.test(password),
+            specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+        };
+
+        setRequirementsMet(requirements);
+
+        const score = Object.values(requirements).filter(Boolean).length;
+        setPasswordStrength(score);
+    };
+
+    const getPasswordStrengthColor = () => {
+        if (passwordStrength === 0) return "bg-gray-300";
+        if (passwordStrength > 0 && passwordStrength < 2) return "bg-red-500";
+        if (passwordStrength > 2 && passwordStrength < 5) return "bg-yellow-500";
+        return "bg-green-500";
+    };
     const handleLogIn = async () => {
         try {
             // Sign in or sign up
@@ -85,12 +110,7 @@ export default function Login() {
         setShowPassword(!showPassword)
     }
 
-    const getPasswordStrengthColor = () => {
-        if (passwordStrength === 0) return "bg-gray-300";
-        if (passwordStrength <= 1) return "bg-red-500";
-        if (passwordStrength === 2) return "bg-yellow-500";
-        return "bg-green-500";
-    };
+    const canCreateAccount = passwordStrength === 5;
 
     return (
         <>
@@ -182,7 +202,7 @@ export default function Login() {
                                     <TextInput
                                         className='w-[85%] mr-2'
                                         value={password}
-                                        onChangeText={setPassword}
+                                        onChangeText={handlePasswordChange}
                                         placeholder="••••••••"
                                         secureTextEntry={!showPassword}
                                     />
@@ -192,9 +212,32 @@ export default function Login() {
                                 </View>
 
                                 {/* Barra de seguridad */}
-                                {id == "2" ?
+                                {id === "2" && (
+                                <>
+                                    {/* Password Strength Bar */}
                                     <View className={`h-2 mt-2 ${getPasswordStrengthColor()}`} />
-                                : null}
+
+                                    {/* Password Requirements */}
+                                    <View className="mt-3">
+                                        <Text className={`text-sm ${requirementsMet.length ? 'text-green-600' : 'text-red-600'}`}>
+                                            {requirementsMet.length ? "✔ " : "✘ "} Entre 8 y 20 caracteres
+                                        </Text>
+                                        <Text className={`text-sm ${requirementsMet.uppercase ? 'text-green-600' : 'text-red-600'}`}>
+                                            {requirementsMet.uppercase ? "✔ " : "✘ "} Al menos una letra mayúscula
+                                        </Text>
+                                        <Text className={`text-sm ${requirementsMet.lowercase ? 'text-green-600' : 'text-red-600'}`}>
+                                            {requirementsMet.lowercase ? "✔ " : "✘ "} Al menos una letra minúscula
+                                        </Text>
+                                        <Text className={`text-sm ${requirementsMet.number ? 'text-green-600' : 'text-red-600'}`}>
+                                            {requirementsMet.number ? "✔ " : "✘ "} Al menos un número
+                                        </Text>
+                                        <Text className={`text-sm ${requirementsMet.specialChar ? 'text-green-600' : 'text-red-600'}`}>
+                                            {requirementsMet.specialChar ? "✔ " : "✘ "} Al menos un carácter especial
+                                        </Text>
+                                    </View>
+                                </>
+                            )}
+
                             </View>
 
                             {/* Confirmar Contraseña Form */}
@@ -223,8 +266,11 @@ export default function Login() {
                 {/* Continue|Register and Switch */}
                 <View className="w-full pb-10 items-center">
                     <Pressable
-                        className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]"
+                        className={`py-3 w-60 flex items-center justify-center rounded-full ${
+                            id == "2" && !canCreateAccount ? "bg-gray-400" : "bg-[#00A435] active:bg-[#00a434b0]"
+                        }`}
                         onPress={handleLogIn}
+                        disabled={id == "2" && !canCreateAccount} 
                     >
                         <Text className="text-white font-bold text-base pb-1">
                             {id == "1" ? "Continuar" : "Registrarse"}

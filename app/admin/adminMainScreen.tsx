@@ -19,6 +19,7 @@ export default function AdminMainScreen() {
     const [screenName, setScreenName] = useState("Inicio");
     const [userID, setUserID] = useState("")
     const [userData, setUserData] = useState<any>({})
+    const [cardData, setCardData] = useState<any>([])
     const [aidCenters, setAidCenters] = useState<any>([])
     const [docID, setDocID] = useState("")
     const [showLogOut, setShowLogOut] = useState(false)
@@ -60,6 +61,17 @@ export default function AdminMainScreen() {
             setAidCenters(newCenters)
         }
 
+        const getCardData = async () => {
+            const newData:any = []
+            const data = collection(db, "home");
+            const q = query(data);
+            const snapshot = await getDocs(q);
+            snapshot.forEach((doc) => {
+                newData.push(doc.data())
+            });
+            setCardData(newData)
+        }
+
         // if (screenName == "home" || screenName == "map" || screenName == "forms" || screenName == "formAllies" || screenName == "formVolunteers" || screenName == "formInNeed") {}
         BackHandler.addEventListener('hardwareBackPress', ()=>{return true})
 
@@ -67,6 +79,7 @@ export default function AdminMainScreen() {
             setUserID(auth.currentUser.uid);
             getUserData();
             getAidCenters();
+            getCardData();
             setTimeOut(2).then(()=>{setLoading(false)})
         } else {
             console.log("No user is currently logged in.");
@@ -93,7 +106,7 @@ export default function AdminMainScreen() {
 
             {/* Main Content */}
             {screen == "home" ?
-                <AdminHome />
+                <AdminHome cardData={cardData} reload={reload} setReload={setReload} />
             : screen == "map" ?
                 <AdminMap aidCenters={aidCenters} reload={reload} setReload={setReload} />
             : screen == "forms" ?

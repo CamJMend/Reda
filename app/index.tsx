@@ -18,9 +18,9 @@ export default function Welcome() {
     }, [])
 
     return (
-        <View className="grow grid-cols-3">
+        <View className="h-screen w-screen bg-white">
             {/* Header */}
-            <View className="w-full items-center pt-12">
+            <View className="items-center pt-12">
                 {/* Title */}
                 <Text className="font-bold">By REDA</Text>
 
@@ -34,7 +34,7 @@ export default function Welcome() {
             </View>
 
             {/* Image */}
-            <View className="flex-1 w-full flex justify-center">
+            <View className="flex-1 flex justify-center">
                 {/* Image Container */}
                 <View className="h-60 w-full">
                     {/* Donation Image */}
@@ -46,7 +46,7 @@ export default function Welcome() {
             </View>
 
             {/* Buttons */}
-            <View className="w-full pb-10 items-center">
+            <View className="pb-10 items-center">
                 {/* Log In Button */}
                 <Link asChild href='/login/1'>
                     <Pressable className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]">

@@ -8,6 +8,8 @@ export default function NotificationsScreen() {
     const [notifications, setNotifications] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [userID, setUserID] = useState<any>()
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [selectedNotification, setSelectedNotification] = useState<any>(null);
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -17,14 +19,13 @@ export default function NotificationsScreen() {
 
                 if (user) {
                     const userID = user.uid;
-                    setUserID(user)
+                    setUserID(userID)
 
                     const notifDocRef = doc(db, "notifications", userID);
                     const notifDocSnap = await getDoc(notifDocRef);
 
                     if (notifDocSnap.exists()) {
                         const rawData = notifDocSnap.data();
-                        console.log(rawData)
 
                         const transformedNotifications = Object.entries(rawData.notifications)
                             .filter(([key]) => key.startsWith("notif_"))
@@ -34,7 +35,6 @@ export default function NotificationsScreen() {
                             }));
 
                         setNotifications(transformedNotifications);
-                        console.log(transformedNotifications)
                     } else {
                         console.log("No se encontraron notificaciones para este usuario.");
                         setNotifications([]);
@@ -51,6 +51,8 @@ export default function NotificationsScreen() {
     }, []);
 
     const handleNotificationPress = async (notif: any) => {
+        setSelectedNotification(notif);
+        setPopupVisible(true)
         try {
             const notificationDoc = doc(db, "notifications", userID);
             await updateDoc(notificationDoc, {
@@ -106,6 +108,17 @@ export default function NotificationsScreen() {
             ) : (
                 <View className="items-center my-4">
                     <Text className="text-gray-500">No tienes notificaciones.</Text>
+                </View>
+            )}
+            {/* Popup */}
+            {popupVisible && selectedNotification && (
+                <View className="absolute w-full mt-16 bg-white shadow-lg rounded-lg p-8 z-50">
+                    <Text className="text-lg font-bold">{selectedNotification.subject}</Text>
+                    <Text className="text-gray-700 mt-4">{selectedNotification.message}</Text>
+
+                    <TouchableOpacity onPress={() => setPopupVisible(false)} className="mt-8">
+                        <Text className="text-red-500 text-center">Cerrar</Text>
+                    </TouchableOpacity>
                 </View>
             )}
         </ScrollView>

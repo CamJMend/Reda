@@ -28,9 +28,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      "expo-build-properties"
-    ],
-    "newArchEnabled": true
+      "expo-router"
+    ]
   }
 }

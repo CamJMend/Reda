@@ -334,11 +334,7 @@ export default function Login() {
                                 </View>
 
                                 {/* Confirmar Contraseña Form */}
-                                {id == "1" ? 
-                                    <View className="items-center mt-7">
-                                        <Text className="underline">¿Olvidaste tu contraseña?</Text>
-                                    </View>
-                                :
+                                {id == "1" ? null :
                                     <View className="mt-5">
                                         <Text className="font-bold">Confirmar Contraseña</Text>
                                         <View className="flex flex-row items-center h-14 border-[#ddd] border px-2 rounded ">

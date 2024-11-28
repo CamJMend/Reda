@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, Alert, TextInput, Modal} from "react-native";
+import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, Alert, TextInput, ActivityIndicator} from "react-native";
 import { doc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "../../../components/initApp";
 
@@ -13,6 +13,7 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
     const [asunto, setAsunto] = useState<string>("");
     const [mensaje, setMensaje] = useState<string>("");
     const [popupVisible, setPopupVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const textoPredeterminado = "Gracias. Si tienes dudas, continua la conversación por correo electrónico.";
 
     const handleSelectStatus = (status: string) => {
@@ -25,7 +26,7 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
             Alert.alert("Error", "Por favor complete todos los campos.");
             return;
         }
-
+        setIsLoading(true); 
         try {
             // Enviar correo
             const mensajeCompleto = `${mensaje}\n\n${textoPredeterminado}`;
@@ -43,7 +44,7 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
             });
 
             if (response.ok) {
-                Alert.alert("Éxito", "Correo enviado exitosamente");
+                Alert.alert("Éxito", "Respuesta enviada exitosamente");
                 setAsunto("");
                 setMensaje("");
                 
@@ -61,13 +62,14 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
                     }
                 }, { merge: true });
 
-                Alert.alert("Notificación", "Notificación añadida exitosamente al usuario");
             } else {
-                Alert.alert("Error", "No se pudo enviar el correo");
+                Alert.alert("Error", "No se pudo enviar la respuesta");
             }
         } catch (error) {
             console.error("Error al enviar el correo:", error);
-            Alert.alert("Error", "Ocurrió un problema al enviar el correo");
+            Alert.alert("Error", "Ocurrió un problema al enviar la respuesta");
+        } finally {
+        setIsLoading(false);
         }
     };
 
@@ -94,7 +96,7 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
                 status: newStatus,
             });
             onStatusChange(newStatus);
-            Alert.alert("Éxito", `Estado cambiado a: ${newStatus}`);
+            Alert.alert("Éxito", "Estado cambiado");
         } catch (error) {
             console.error("Error al cambiar el estado:", error);
             Alert.alert("Error", "No se pudo actualizar el estado.");
@@ -228,9 +230,13 @@ export default function Details({ data, type, onStatusChange }: DetailsProps) {
 
                     {/* Botón para enviar respuesta */}
                     <View className="flex items-center justify-center mb-5">
-                        <TouchableOpacity className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]" onPress={handleSendResponse}>
-                            <Text className="text-white text-center text-base font-semibold">Enviar Respuesta</Text>
-                        </TouchableOpacity>
+                        {isLoading ? (
+                            <ActivityIndicator size="large" color="#00A435" />
+                        ) : (
+                            <TouchableOpacity className="py-3 w-60 flex items-center justify-center rounded-full bg-[#00A435] active:bg-[#00a434b0]" onPress={handleSendResponse}>
+                                <Text className="text-white text-center text-base font-semibold">Enviar Respuesta</Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 </View>
             </ScrollView>

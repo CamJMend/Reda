@@ -1,4 +1,4 @@
-import { ScrollView, View, Text, Image, Pressable } from "react-native";
+import { ScrollView, View, Text, Image, Pressable, Alert } from "react-native";
 import { useState } from "react";
 import { collection, getDocs, deleteDoc, query, where } from "firebase/firestore";
 import { db } from "../../components/initApp";
@@ -23,9 +23,11 @@ export default function Home({ cardData, reload, setReload }: any) {
                 await deleteDoc(docRef)
             })
             console.log("Card Deleted Successfully")
+            Alert.alert("Éxito", "Tarjeta eliminada correctamente");
             setReload(!reload)
         } catch (error) {
             console.log("Error Deleting Card")
+            Alert.alert("Error", "La tarjeta no pudo ser eliminada");
         }
         setShowDeleteCard(false)
     }

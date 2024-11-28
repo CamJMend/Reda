@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, TextInput, KeyboardAvoidingView, ScrollView, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, Image, TextInput, KeyboardAvoidingView, ScrollView, ActivityIndicator, Alert } from "react-native";
 import { useLocalSearchParams, Link, router } from "expo-router";
 import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
@@ -94,23 +94,11 @@ export default function Login() {
                     }
                     console.log('User created successfully!');
                 } else {
-                    Toast.show({
-                        type: 'error',
-                        text1: 'Error',
-                        text2: "Las contraseñas son diferentes",
-                        visibilityTime: 3000,
-                        autoHide: true
-                    })
+                    Alert.alert("Error", "No se pudo crear el usuario");
                 }
             }
         } catch (error : any) {
-            Toast.show({
-                type: 'error',
-                text1: 'Error',
-                text2: `${error.message}`,
-                visibilityTime: 3000,
-                autoHide: true
-            })
+            Alert.alert("Error", `${error.message}`);
         }
     };
 
@@ -154,13 +142,7 @@ export default function Login() {
             }
         } else {
             setLoading(true)
-            Toast.show({
-                type: 'error',
-                text1: 'Error',
-                text2: "El numero seleccionado no es correcto",
-                visibilityTime: 3000,
-                autoHide: true
-            })
+            Alert.alert("Error", "El numero seleccionado no es correcto");
             await customWait(3)
             setLoading(false)
             router.navigate('/')
@@ -171,7 +153,7 @@ export default function Login() {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve(`Se resolvió después de ${time} segundos`);
-            }, time*1000); // 3000 milisegundos = 3 segundos
+            }, time*1000);
         });
     }
 

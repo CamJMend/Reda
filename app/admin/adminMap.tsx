@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Alert } from "react-native";
 import { useState } from "react";
 import { collection, getDocs, deleteDoc, query, where } from "firebase/firestore";
 import MapView, { Marker } from "react-native-maps";
@@ -42,9 +42,11 @@ export default function AdminMap({ aidCenters, reload, setReload } : any) {
                 await deleteDoc(docRef)
             })
             console.log("Point Deleted Successfully")
+            Alert.alert("Éxito", "Punto eliminado correctamente");
             setReload(!reload)
         } catch (error) {
             console.log("Error Deleting Point")
+            Alert.alert("Error", "El punto no pudo ser eliminado");
         }
         setShowDeleteCenter(false)
     }

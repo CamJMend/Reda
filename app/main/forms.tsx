@@ -54,7 +54,6 @@ export default function Forms({ userID, userData, docID, setScreen, setScreenNam
                     <ArrowRightIcon size={30} color="#f6b737" />
                 </Pressable>
 
-                
                 <Pressable 
                     className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center justify-between"
                     onPress={() => {

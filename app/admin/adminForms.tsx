@@ -5,6 +5,7 @@ import AdminVolunteers from "./adminForms/adminVolunteers";
 import AdminInNeed from "./adminForms/adminInneed";
 import Error404 from "../../components/error404";
 import Details from "./adminForms/details";
+import { HandShakeIcon, ArrowRightIcon, HandHoldingIcon, HandUpIcon } from "../../components/svgExports";
 
 export default function AdminForms({ setScreen, setScreenName }: any) {
     const [formScreen, setFormScreen] = useState("forms");
@@ -71,39 +72,45 @@ export default function AdminForms({ setScreen, setScreenName }: any) {
                     <Text className="mt-3 mb-2 text-base text-[#666666] pb-0.5">Formularios llenados para:</Text>
                     
                     <Pressable 
-                        className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center"
+                        className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center justify-between"
                         onPress={() => {
                             setScreenName("Aliados");
                             setFormScreen("formAllies");
                         }}
                     >
-                        <Image source={require('../../assets/icon-hands.png')} className="w-12 h-12" />
-                        <Text className="text-[#F19800] font-semibold text-lg mx-3 mr-8">Ser Aliado</Text>
-                        <Image source={require('../../assets/icon-arrow.png')} className="ml-20 w-4 h-4" />
+                        <View className="flex-row">
+                            <HandShakeIcon size={30} color="#f6b737" />
+                            <Text className="text-[#F19800] font-semibold text-lg mx-3 mr-8">Ser Aliado</Text>
+                        </View>
+                        <ArrowRightIcon size={30} color="#f6b737" />
                     </Pressable>
 
                     <Pressable 
-                        className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center"
+                        className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center justify-between"
                         onPress={() => {
                             setScreenName("Voluntarios");
                             setFormScreen("formVolunteers");
                         }}
                     >
-                        <Image source={require('../../assets/icon-vol.png')} className="w-12 h-12" />
-                        <Text className="text-[#F19800] font-semibold text-lg mx-2 mr-4"> Ser Voluntario</Text>
-                        <Image source={require('../../assets/icon-arrow.png')} className="ml-16 w-4 h-4" />
+                        <View className="flex-row items-center">
+                            <HandUpIcon size={30} color="#f6b737" />
+                            <Text className="text-[#F19800] font-semibold text-lg mx-2 mr-4"> Ser Voluntario</Text>
+                        </View>
+                        <ArrowRightIcon size={30} color="#f6b737" />
                     </Pressable>
                     
                     <Pressable 
-                        className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center"
+                        className="mt-5 p-4 border-2 border-[#F19800] bg-transparent rounded-2xl w-full flex-row items-center justify-between"
                         onPress={() => {
                             setScreenName("Red de Ayuda");
                             setFormScreen("formInNeed");
                         }}
                     >
-                        <Image source={require('../../assets/icon-receive.png')} className="w-12 h-12" />
-                        <Text className="text-[#F19800] font-semibold text-lg mx-3 mr-1">Recibir ayuda</Text>
-                        <Image source={require('../../assets/icon-arrow.png')} className="ml-20 w-4 h-4" />
+                        <View className="flex-row items-center">
+                            <HandHoldingIcon size={30} color="#f6b737" />
+                            <Text className="text-[#F19800] font-semibold text-lg mx-3 mr-1">Recibir ayuda</Text>
+                        </View>
+                        <ArrowRightIcon size={30} color="#f6b737" />
                     </Pressable>
                 </View>
             ) : (

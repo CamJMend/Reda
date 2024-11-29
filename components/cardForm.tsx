@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { collection, addDoc, getDocs, updateDoc, query, where } from "firebase/firestore";
 import { db } from "./initApp";
 import { TrashIcon } from "./svgExports"
+import Toast from "react-native-toast-message";
 
 export default function CardForm({ setShowNewCard, setShowEditCard, form, card, reload, setReload, setShowDeleteCard } : any) {
     const [descriptionPoint, setDescriptionPoint] = useState('')
@@ -30,11 +31,22 @@ export default function CardForm({ setShowNewCard, setShowEditCard, form, card, 
 
     const postNewCard = async (newCard:any) => {
         try {
+            if (newCard.description == "" || newCard.number == "" || newCard.url == "") {
+                throw new Error("Empty Fields")
+            }
             const homeCollection = collection(db, "home");
             await addDoc(homeCollection, newCard);
-            console.log("Card Added Successfully")
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Card Added Successfully',
+                visibilityTime: 3000,
+                autoHide: true,
+                topOffset: 30,
+                bottomOffset: 40,
+            })
         } catch (error) {
-            console.log("Error Adding New Card")
+            console.log(error)
         }
     }
 
@@ -71,6 +83,7 @@ export default function CardForm({ setShowNewCard, setShowEditCard, form, card, 
     },[])
 
     return (
+        <>
         <KeyboardAvoidingView behavior="padding">
             <ScrollView contentContainerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
                 <Pressable className="w-[80%] p-5 border-4 rounded-3xl border-[#F19800] bg-white">
@@ -144,5 +157,7 @@ export default function CardForm({ setShowNewCard, setShowEditCard, form, card, 
                 </Pressable>
             </ScrollView>
         </KeyboardAvoidingView>
+        <Toast/>
+        </>
     )
 }

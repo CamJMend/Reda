@@ -105,7 +105,7 @@ export default function PointForm ({ setShowNewPoint, setShowEditPoint, setShowC
             <ScrollView contentContainerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
                 <Pressable className="w-[80%] p-5 border-4 rounded-3xl border-[#F19800] bg-white">
                     {isLoadingPoint ?
-                        <View className="absolute w-[100%] h-[100%] m-5 flex justify-center items-center bg-white z-10">
+                        <View className="absolute w-[100%] h-[100%] m-5 flex justify-center items-center bg-white z-20">
                             <ActivityIndicator size="large" color="#1D4B40" />
                             <Text className="text-md mt-4">Cargando...</Text>
                         </View>
